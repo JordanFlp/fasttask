@@ -18,9 +18,15 @@ import br.com.fasttask.fasttask.exception.InvalidRequestException;
 import br.com.fasttask.fasttask.exception.TaskNotFoundException;
 import br.com.fasttask.fasttask.model.Task;
 import br.com.fasttask.fasttask.service.ITaskService;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
+
+
+
 
 @RestController
 @RequestMapping("/task")
+@CrossOrigin(origins = "http://localhost:3000")
 public class TaskController {
 	
 	 @Autowired
