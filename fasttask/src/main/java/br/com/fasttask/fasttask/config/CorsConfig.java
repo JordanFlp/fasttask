@@ -1,4 +1,5 @@
-package config;
+package br.com.fasttask.fasttask.config;
+
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,10 +15,10 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                    .allowedOrigins("http://localhost:3000")
-                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                    .allowedHeaders("*")
-                    .allowCredentials(true);
+                    .allowedOrigins("http://localhost:3000")  // Permite o frontend do React
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")  // Métodos permitidos
+                    .allowedHeaders("*")  // Permite todos os cabeçalhos
+                    .allowCredentials(true);  // Permite o envio de cookies
             }
         };
     }

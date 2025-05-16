@@ -35,29 +35,42 @@ public class UserServiceImpl implements IUserService {
 	}
 	
 	@Override
-	public User updateUser(User user)  throws InvalidRequestException, UserNotFoundException, EmailAlreadyExistsException {
-		
-		if (user.getId() == null) {
-	        throw new InvalidRequestException("Id do usuário é obrigatório para atualização!");
-	    }
+	public User updateUser(User user) throws InvalidRequestException, UserNotFoundException, EmailAlreadyExistsException {
+		if (user == null || user.getId() == null) {
+			throw new InvalidRequestException("Usuário ou ID não pode ser nulo");
+		}
 
-	    User persistedUser = findUserById(user.getId());
-	    if (persistedUser == null) {
-	        throw new UserNotFoundException("Usuário não encontrado!");
-	    }
+		User existingUser = userRepository.findById(user.getId());
+		if (existingUser == null) {
+			throw new UserNotFoundException("Usuário não encontrado");
+		}
 
-	    // Verificar se o email foi alterado e se já existe outro usuário com o mesmo email
-	    if (!persistedUser.getEmail().equals(user.getEmail()) && userRepository.findByEmail(user.getEmail()) != null) {
-	        throw new EmailAlreadyExistsException("E-mail já cadastrado para outro usuário!");
-	    }
+		// Verifica email duplicado
+		if (!existingUser.getEmail().equals(user.getEmail())) {
+			User userWithEmail = userRepository.findByEmail(user.getEmail());
+			if (userWithEmail != null && !userWithEmail.getId().equals(user.getId())) {
+				throw new EmailAlreadyExistsException("Email já está em uso");
+			}
+			existingUser.setEmail(user.getEmail());
+		}
 
-	    // Se a senha foi alterada, criptografar a nova senha
-	    if (!BCrypt.checkpw(user.getPassword(), persistedUser.getPassword())) {
-	        user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
-	    }
+		// Atualiza os campos
+		existingUser.setName(user.getName());
+		existingUser.setAddress(user.getAddress());
+		existingUser.setPhone(user.getPhone());
+		existingUser.setBirthdate(user.getBirthdate());
+		existingUser.setPhoto(user.getPhoto());
 
-		return userRepository.update(user);
+		// Atualiza a senha: se senha nova informada, hash antes de salvar
+		if (user.getPassword() != null && !user.getPassword().trim().isEmpty()) {
+			String hashedPassword = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+			existingUser.setPassword(hashedPassword);
+		}
+		// Se senha não foi passada, mantém a senha atual (não sobrescreve)
+
+		return userRepository.update(existingUser);
 	}
+
 	
 	@Override
 	public void deleteUser(User user) throws InvalidRequestException, UserNotFoundException {
@@ -90,18 +103,19 @@ public class UserServiceImpl implements IUserService {
 		return user;
 	}
 	
-	@Override
-	public User authenticateUser(String email, String password) throws InvalidRequestException, UserNotFoundException {
-		
-		User user = findUserByEmail(email);
-		if (user == null) {
-			throw new UserNotFoundException("Usuário não encontrado!");
-		} 
-		
-		if (!BCrypt.checkpw(password, user.getPassword())) {
-			throw new InvalidRequestException("Senha Inválida!");
-		}
-		
-		return user;
-	}
+		@Override
+public User authenticateUser(String email, String password) throws InvalidRequestException, UserNotFoundException {
+    User user = findUserByEmail(email);
+    if (user == null) {
+        throw new UserNotFoundException("Usuário não encontrado!");
+    } 
+    
+    // Aqui a comparação é feita corretamente
+    if (!BCrypt.checkpw(password, user.getPassword())) {
+        throw new InvalidRequestException("Senha Inválida!");
+    }
+
+    return user;
+}
+
 }

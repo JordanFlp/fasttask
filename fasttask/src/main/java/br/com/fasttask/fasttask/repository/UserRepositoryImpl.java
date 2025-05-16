@@ -41,7 +41,7 @@ public class UserRepositoryImpl implements IUserRepository {
 	
 	@Override
 	public User findByEmail(String email) {
-		List<User> users = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class).setParameter("email", email).getResultList();
-		return users.isEmpty() ? null : users.get(0);
+		List<User> user = entityManager.createQuery("SELECT u FROM User u WHERE u.email = :email", User.class).setParameter("email", email).getResultList();
+		return user.isEmpty() ? null : user.get(0);
 	}
 }
