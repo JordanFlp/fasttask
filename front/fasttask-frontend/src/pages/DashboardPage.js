@@ -2,13 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TaskList from '../components/TaskList';
 
+const getInitials = (name) => {
+  if (!name) return '';
+  const words = name.trim().split(' ');
+  if (words.length === 1) return words[0][0].toUpperCase();
+  return (words[0][0] + words[1][0]).toUpperCase();
+};
+
 const DashboardPage = () => {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
-
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     } else {
@@ -17,10 +23,9 @@ const DashboardPage = () => {
     }
   }, [navigate]);
 
-  // Função para fazer logout
   const handleLogout = () => {
-    localStorage.removeItem('user');  // Limpar o localStorage
-    navigate('/login');  // Redirecionar para a página de login
+    localStorage.removeItem('user');
+    navigate('/login');
   };
 
   if (!user) {
@@ -28,24 +33,41 @@ const DashboardPage = () => {
   }
 
   return (
-    <div>
-      {/* Exibindo nome do usuário e foto de perfil */}
+    <div style={{ padding: '20px' }}>
+      {/* Header com nome e avatar */}
       <div
         onClick={() => navigate('/profile')}
-        style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          cursor: 'pointer',
+          marginBottom: '20px',
+        }}
       >
-        <img
-          src="https://via.placeholder.com/40"
-          alt="Perfil"
-          style={{ borderRadius: '50%' }}
-        />
-        <h2>Bem-vindo, {user.name}!</h2>
+        <div
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: '50%',
+            backgroundColor: '#ccc',
+            color: '#fff',
+            fontWeight: 'bold',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontSize: '18px',
+          }}
+        >
+          {getInitials(user.name)}
+        </div>
+        <h2 style={{ margin: 0 }}>Bem-vindo(a), {user.name}!</h2>
       </div>
 
-      {/* Botão de Logout */}
-      <button onClick={handleLogout}>Sair</button>
+      <button onClick={handleLogout} style={{ marginBottom: '20px' }}>
+        Sair
+      </button>
 
-      {/* Exibindo a lista de tarefas */}
       <TaskList userId={user.id} />
     </div>
   );

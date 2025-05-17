@@ -67,9 +67,11 @@ public class SubitemController {
             Subitem updatedSubitem = subitemService.updateSubitem(subitem);
             return ResponseEntity.status(HttpStatus.OK).body(updatedSubitem);
         } catch (Exception e) {
+            e.printStackTrace();  // <---- log do erro completo no console backend
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar subitem!");
         }
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteSubitem(@PathVariable Integer id) {

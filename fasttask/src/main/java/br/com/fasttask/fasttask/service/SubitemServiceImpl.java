@@ -23,9 +23,18 @@ public class SubitemServiceImpl implements ISubitemService {
         return subitemRepository.save(subitem);
     }
 
-    @Override
+   @Override
     public Subitem updateSubitem(Subitem subitem) {
-        return subitemRepository.update(subitem);
+        Subitem existing = subitemRepository.findById(subitem.getId());
+        if (existing == null) {
+            throw new IllegalArgumentException("Subitem não encontrado: " + subitem.getId());
+        }
+
+        // Atualiza apenas os campos permitidos
+        existing.setDescription(subitem.getDescription());
+        existing.setActive(subitem.getActive());
+
+        return subitemRepository.update(existing); // usa o método update do seu repositório
     }
 
     @Override

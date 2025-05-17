@@ -1,26 +1,29 @@
-
 import React from 'react';
 
 const SubitemList = ({ subitems, setSubitems }) => {
+  // Adiciona um novo subitem vazio (com nomes de propriedades consistentes)
   const handleAdd = () => {
-    setSubitems([...subitems, { name: '', completed: false }]);
+    setSubitems([...subitems, { description: '', active: false }]);
   };
 
+  // Atualiza a descrição do subitem no índice passado
   const handleChange = (index, value) => {
     const updated = [...subitems];
-    updated[index].name = value;
+    updated[index] = { ...updated[index], description: value };
     setSubitems(updated);
   };
 
+  // Remove o subitem no índice passado
   const handleRemove = (index) => {
     const updated = [...subitems];
     updated.splice(index, 1);
     setSubitems(updated);
   };
 
+  // Alterna o booleano active do subitem no índice passado
   const handleToggle = (index) => {
     const updated = [...subitems];
-    updated[index].completed = !updated[index].completed;
+    updated[index] = { ...updated[index], active: !updated[index].active };
     setSubitems(updated);
   };
 
@@ -31,12 +34,12 @@ const SubitemList = ({ subitems, setSubitems }) => {
         <div key={index}>
           <input
             type="checkbox"
-            checked={item.completed}
+            checked={item.active}
             onChange={() => handleToggle(index)}
           />
           <input
             type="text"
-            value={item.name}
+            value={item.description}
             onChange={(e) => handleChange(index, e.target.value)}
           />
           <button type="button" onClick={() => handleRemove(index)}>Remover</button>
