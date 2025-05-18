@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+
+  --ft-color-primary: #2AB6A5;         /* Cor principal */
+  --ft-color-secondary: #10375C;       /* Cabeçalhos, texto importante, rodapé */
+  --ft-color-bg-light: #F4F7F8;        /* Plano de fundo claro */
+  --ft-color-text-main: #2C2C2C;       /* Texto principal */
+  --ft-color-text-muted: #7A7A7A;      /* Texto suave / auxiliar */
+  --ft-color-accent: #3ED0C0;          /* Ação / Hover / Ênfase */
+  --ft-color-error: #E74C3C;           /* Alerta / Erro */
+  --ft-color-success: #2ECC71;         /* Sucesso */
+
+  --ft-gradient-blue: linear-gradient(to bottom, #4DA8DA, #2E6A9B);
+  --ft-font-family: 'Poppins', sans-serif;
+}
+
+/* Modo Claro */
+body {
+  background-color: var(--cor-plano-fundo-claro);
+  color: var(--cor-texto-principal);
+}
+
+/* Modo Escuro (opcional) */
+body.dark-mode {
+  background-color: var(--cor-secundaria);
+  color: var(--cor-plano-fundo-claro);
+}
+
+/* Botões principais */
+.button-primary {
+  background-color: var(--cor-primaria);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.button-primary:hover {
+  background-color: var(--cor-acao-enfase);
+}
+
+/* Cabeçalhos e texto importante */
+h1, h2, h3 {
+  color: var(--cor-secundaria);
+}
+
+/* Subtítulos e textos auxiliares */
+.subtitle {
+  color: var(--cor-texto-suave);
+}
+
+/* Mensagens de erro e campos inválidos */
+.error-message {
+  color: var(--cor-alerta-erro);
+}
+
+/* Confirmações e status concluído */
+.success-message {
+  color: var(--cor-sucesso);
+}
+
+/* Bordas suaves ou sombras em tons azulados */
+.component-highlight {
+  border: 1px solid var(--cor-primaria);
+  box-shadow: 0 0 10px rgba(58, 180, 165, 0.2);
+}
