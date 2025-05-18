@@ -1,0 +1,132 @@
+.ft-hero {
+  background-color: var(--ft-color-secondary);
+  color: var(--ft-color-bg-light);
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  position: relative;
+  font-family: var(--ft-font-family);
+}
+
+.ft-hero-left {
+  z-index: 2;
+  text-align: center;
+}
+
+.ft-hero-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+}
+
+.ft-hero-title strong {
+  color: var(--ft-color-primary);
+}
+
+.ft-hero-subtitle {
+  font-size: 1rem;
+  color: var(--ft-color-text-soft);
+  margin-bottom: 2rem;
+}
+
+.ft-hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.ft-btn {
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+}
+
+.ft-btn-primary {
+  background-color: var(--ft-color-primary);
+  color: var(--ft-color-bg-light);
+}
+
+.ft-btn-primary:hover {
+  background-color: var(--ft-color-accent);
+}
+
+.ft-btn-secondary {
+  background-color: #fff;
+  color: var(--ft-color-secondary);
+  border: 2px solid var(--ft-color-secondary);
+}
+
+.ft-btn-secondary:hover {
+  background-color: var(--ft-color-bg-light);
+}
+
+/* Mockups e gradiente */
+.ft-hero-right {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ft-hero-img {
+  max-width: 120px;
+  height: auto;
+}
+
+.img1 {
+  transform: translateX(20px);
+  z-index: 2;
+}
+
+.img2 {
+  transform: translateX(-20px);
+  z-index: 1;
+}
+
+.ft-hero-gradient {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(to left, rgba(42, 182, 165, 0.3), transparent);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Desktop layout */
+@media (min-width: 768px) {
+  .ft-hero {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4rem 5%;
+  }
+
+  .ft-hero-left {
+    flex: 1;
+    text-align: left;
+  }
+
+  .ft-hero-title {
+    font-size: 2.5rem;
+  }
+
+  .ft-hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .ft-hero-right {
+    flex: 1;
+    justify-content: flex-end;
+  }
+
+  .ft-hero-img {
+    max-width: 150px;
+  }
+}
