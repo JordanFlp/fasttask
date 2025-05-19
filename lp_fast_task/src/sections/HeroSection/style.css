@@ -3,22 +3,27 @@
   color: var(--ft-color-bg-light);
   padding: 3rem 1.5rem;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* Layout em coluna padrão para mobile */
   gap: 2rem;
   position: relative;
   font-family: var(--ft-font-family);
+  align-items: center; /* Centraliza os itens na direção transversal (horizontal no layout coluna) */
 }
 
 .ft-hero-left {
   z-index: 2;
   text-align: center;
+  display: flex; /* Adicionado para centralizar o conteúdo internamente */
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem; /* Mantém o espaçamento entre os elementos */
 }
 
 .ft-hero-title {
   font-size: 1.8rem;
   font-weight: 600;
   line-height: 1.4;
-  margin-bottom: 1rem;
+  margin-bottom: 0; /* Removido para usar o gap do flex container */
 }
 
 .ft-hero-title strong {
@@ -28,64 +33,22 @@
 .ft-hero-subtitle {
   font-size: 1rem;
   color: var(--ft-color-text-soft);
-  margin-bottom: 2rem;
+  margin-bottom: 0; /* Removido para usar o gap do flex container */
 }
 
 .ft-hero-buttons {
   display: flex;
   gap: 1rem;
   justify-content: center;
+  width: 100%; /* Garante que os botões ocupem a largura total disponível */
 }
 
-.ft-btn {
-  font-size: 1rem;
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  border: none;
-}
-
-.ft-btn-primary {
-  background-color: var(--ft-color-primary);
-  color: var(--ft-color-bg-light);
-}
-
-.ft-btn-primary:hover {
-  background-color: var(--ft-color-accent);
-}
-
-.ft-btn-secondary {
-  background-color: #fff;
-  color: var(--ft-color-secondary);
-  border: 2px solid var(--ft-color-secondary);
-}
-
-.ft-btn-secondary:hover {
-  background-color: var(--ft-color-bg-light);
-}
-
-/* Mockups e gradiente */
+/* Estilos do HeroCard */
 .ft-hero-right {
-  position: relative;
+  width: 100%; /* Garante que o HeroCard ocupe a largura total em telas pequenas */
   display: flex;
-  justify-content: center;
+  justify-content: center; /* Centraliza o HeroCard horizontalmente */
   align-items: center;
-}
-
-.ft-hero-img {
-  max-width: 120px;
-  height: auto;
-}
-
-.img1 {
-  transform: translateX(20px);
-  z-index: 2;
-}
-
-.img2 {
-  transform: translateX(-20px);
-  z-index: 1;
 }
 
 .ft-hero-gradient {
@@ -111,6 +74,7 @@
   .ft-hero-left {
     flex: 1;
     text-align: left;
+    align-items: flex-start; /* Alinha o conteúdo à esquerda no layout de linha */
   }
 
   .ft-hero-title {
@@ -121,12 +85,14 @@
     font-size: 1.2rem;
   }
 
+  .ft-hero-buttons {
+    justify-content: flex-start;
+    width: auto; /* Retorna ao comportamento automático em telas maiores */
+  }
+
   .ft-hero-right {
     flex: 1;
     justify-content: flex-end;
-  }
-
-  .ft-hero-img {
-    max-width: 150px;
+    align-items: center; /* Centraliza verticalmente a imagem na tela desktop */
   }
 }
