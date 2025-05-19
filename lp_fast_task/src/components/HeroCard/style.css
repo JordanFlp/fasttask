@@ -7,6 +7,7 @@
 
 .ft-hero-card-img {
     max-width: 100%;
+    width: 290px;
     height: auto;
     display: block;
     border-radius: 12px;
@@ -21,4 +22,11 @@
 .ft-hero-card-content {
     padding: 1rem;
     text-align: center;
+}
+
+/* 🌐 Desktop */
+@media (min-width: 768px) {
+    .ft-hero-card-img {
+        width: 450px;
+    }
 }
