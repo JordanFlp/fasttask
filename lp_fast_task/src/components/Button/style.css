@@ -1,0 +1,46 @@
+/* src/components/common/Button/style.css */
+
+.ft-btn {
+  font-family: var(--ft-font-family);
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease-in-out;
+}
+
+.ft-btn-primary {
+  background-color: var(--ft-color-primary);
+  color: var(--ft-color-bg-light);
+}
+
+.ft-btn-primary:hover {
+  background-color: var(--ft-color-accent);
+  box-shadow: 0 2px 5px rgba(42, 182, 165, 0.3);
+  transform: translateY(-1px);
+}
+
+.ft-btn-secondary {
+  background-color: #fff;
+  color: var(--ft-color-secondary);
+  border: 2px solid var(--ft-color-secondary);
+}
+
+.ft-btn-secondary:hover {
+  background-color: var(--ft-color-bg-light);
+  color: var(--ft-color-secondary);
+  box-shadow: 0 2px 5px rgba(16, 55, 92, 0.3);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 600px) {
+  .ft-btn {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+  }
+}

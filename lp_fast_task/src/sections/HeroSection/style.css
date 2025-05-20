@@ -1,0 +1,98 @@
+.ft-hero {
+  background-color: var(--ft-color-secondary);
+  color: var(--ft-color-bg-light);
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column; /* Layout em coluna padrão para mobile */
+  gap: 2rem;
+  position: relative;
+  font-family: var(--ft-font-family);
+  align-items: center; /* Centraliza os itens na direção transversal (horizontal no layout coluna) */
+}
+
+.ft-hero-left {
+  z-index: 2;
+  text-align: center;
+  display: flex; /* Adicionado para centralizar o conteúdo internamente */
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem; /* Mantém o espaçamento entre os elementos */
+}
+
+.ft-hero-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 0; /* Removido para usar o gap do flex container */
+}
+
+.ft-hero-title strong {
+  color: var(--ft-color-primary);
+}
+
+.ft-hero-subtitle {
+  font-size: 1rem;
+  color: var(--ft-color-text-soft);
+  margin-bottom: 0; /* Removido para usar o gap do flex container */
+}
+
+.ft-hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  width: 100%; /* Garante que os botões ocupem a largura total disponível */
+}
+
+/* Estilos do HeroCard */
+.ft-hero-right {
+  width: 100%; /* Garante que o HeroCard ocupe a largura total em telas pequenas */
+  display: flex;
+  justify-content: center; /* Centraliza o HeroCard horizontalmente */
+  align-items: center;
+}
+
+.ft-hero-gradient {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(to left, rgba(42, 182, 165, 0.3), transparent);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Desktop layout */
+@media (min-width: 768px) {
+  .ft-hero {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4rem 5%;
+  }
+
+  .ft-hero-left {
+    flex: 1;
+    text-align: left;
+    align-items: flex-start; /* Alinha o conteúdo à esquerda no layout de linha */
+  }
+
+  .ft-hero-title {
+    font-size: 2.5rem;
+  }
+
+  .ft-hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .ft-hero-buttons {
+    justify-content: flex-start;
+    width: auto; /* Retorna ao comportamento automático em telas maiores */
+  }
+
+  .ft-hero-right {
+    flex: 1;
+    justify-content: flex-end;
+    align-items: center; /* Centraliza verticalmente a imagem na tela desktop */
+  }
+}

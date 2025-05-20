@@ -1,0 +1,32 @@
+.ft-hero-card {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ft-hero-card-img {
+    max-width: 100%;
+    width: 290px;
+    height: auto;
+    display: block;
+    border-radius: 12px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.ft-hero-card:hover .ft-hero-card-img {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.ft-hero-card-content {
+    padding: 1rem;
+    text-align: center;
+}
+
+/* 🌐 Desktop */
+@media (min-width: 768px) {
+    .ft-hero-card-img {
+        width: 450px;
+    }
+}
