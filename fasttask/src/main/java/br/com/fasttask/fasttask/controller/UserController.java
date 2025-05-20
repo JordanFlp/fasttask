@@ -52,8 +52,14 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateUser(@PathVariable Integer id, @RequestBody User user) {
         try {
-            if (!id.equals(user.getId()))
+            if (!id.equals(user.getId())) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Id do usuário não confere!");
+            }
+
+            // Validação básica para evitar problemas com JSON inválido
+            if (user.getPhoto() != null && user.getPhoto().length == 0) {
+                user.setPhoto(null); // evita salvar array vazio como foto
+            }
 
             User updatedUser = userService.updateUser(user);
             return ResponseEntity.status(HttpStatus.OK).body(updatedUser);
@@ -67,6 +73,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar usuário!");
         }
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable Integer id) {
