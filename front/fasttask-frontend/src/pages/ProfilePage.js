@@ -5,21 +5,20 @@ import axios from 'axios';
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false);
+  const [isEditingPhoto, setIsEditingPhoto] = useState(false);
 
-  // Campos separados
   const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName]   = useState('');
-  const [email, setEmail]         = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
-  const [street, setStreet]       = useState('');
-  const [number, setNumber]       = useState('');
+  const [street, setStreet] = useState('');
+  const [number, setNumber] = useState('');
   const [neighborhood, setNeighborhood] = useState('');
 
-  const [phone, setPhone]         = useState('');
+  const [phone, setPhone] = useState('');
   const [birthdate, setBirthdate] = useState('');
 
-  // Foto
   const [photoBase64, setPhotoBase64] = useState('');
   const [previewSrc, setPreviewSrc] = useState('');
 
@@ -34,17 +33,14 @@ const ProfilePage = () => {
     const u = JSON.parse(stored);
     setUser(u);
 
-    // Nome
     const parts = u.name.trim().split(' ');
     setFirstName(parts.shift());
     setLastName(parts.join(' '));
 
-    // E‑mail, telefone, nascimento
     setEmail(u.email);
     setPhone(u.phone || '');
     setBirthdate(u.birthdate || '');
 
-    // Endereço
     if (u.address) {
       const ruaMatch = u.address.match(/^(.+?),/);
       const numeroMatch = u.address.match(/, (\d+)/);
@@ -54,10 +50,9 @@ const ProfilePage = () => {
       setNeighborhood(bairroMatch?.[1]?.trim() || '');
     }
 
-    // Foto no banco (esperamos uma string base64)
-    if (u.photo) {
-      setPreviewSrc(u.photo);
-      setPhotoBase64(u.photo);
+    if (u.photoBase64) {
+      setPreviewSrc(u.photoBase64);
+      setPhotoBase64(u.photoBase64);
     }
   }, [navigate]);
 
@@ -68,7 +63,6 @@ const ProfilePage = () => {
     return (parts[0][0] + parts[1][0]).toUpperCase();
   };
 
-  // Converter arquivo em base64
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -79,22 +73,17 @@ const ProfilePage = () => {
     };
     reader.readAsDataURL(file);
   };
-    const base64ToByteArray = (base64String) => {
-      if (!base64String || !base64String.includes(',')) return null;
-      const base64 = base64String.split(',')[1]; // remove o prefixo data:image/...
-      const binaryString = atob(base64);
-      const byteArray = [];
-      for (let i = 0; i < binaryString.length; i++) {
-        byteArray.push(binaryString.charCodeAt(i));
-      }
-      return byteArray;
-    };
 
-    const handleUpdate = async (e) => {
+  const cleanBase64Image = (base64String) => {
+    if (!base64String || !base64String.includes(',')) return null;
+    return base64String;
+  };
+
+  const handleUpdate = async (e) => {
     e.preventDefault();
     if (!user) return;
 
-    const fullName    = `${firstName} ${lastName}`.trim();
+    const fullName = `${firstName} ${lastName}`.trim();
     const fullAddress = `${street}, ${number} - ${neighborhood}`.trim();
 
     const updatedData = {
@@ -104,8 +93,9 @@ const ProfilePage = () => {
       address: fullAddress,
       phone,
       birthdate,
-      photo: photoBase64 ? base64ToByteArray(photoBase64) : null,
+      photoBase64: photoBase64 ? cleanBase64Image(photoBase64) : null,
     };
+
     if (newPassword) {
       updatedData.password = newPassword;
     }
@@ -126,7 +116,6 @@ const ProfilePage = () => {
       alert('Erro ao atualizar perfil!');
     }
   };
-
 
   const handleDeleteAccount = async () => {
     if (!window.confirm('Tem certeza que deseja excluir sua conta? Esta ação não pode ser desfeita.')) {
@@ -150,27 +139,64 @@ const ProfilePage = () => {
       <button onClick={() => navigate('/dashboard')}>← Voltar</button>
       <h2>Perfil do Usuário</h2>
 
-      {/* Avatar */}
-      <div
-        style={{
-          width: '80px',
-          height: '80px',
-          borderRadius: '50%',
-          backgroundColor: '#ccc',
-          overflow: 'hidden',
-          marginBottom: '20px',
-        }}
-      >
-        {previewSrc
-          ? <img src={previewSrc} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          : <div style={{
+      <div style={{ position: 'relative', marginBottom: '20px', textAlign: 'center' }}>
+        <div
+          style={{
+            width: '80px',
+            height: '80px',
+            borderRadius: '50%',
+            backgroundColor: '#ccc',
+            overflow: 'hidden',
+            margin: '0 auto',
+          }}
+        >
+          {previewSrc ? (
+            <img src={previewSrc} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          ) : (
+            <div style={{
               width: '100%', height: '100%',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: '24px', color: '#fff',
             }}>
               {getInitials(user.name)}
             </div>
-        }
+          )}
+        </div>
+
+        {editing && !isEditingPhoto && (
+          <button
+            type="button"
+            onClick={() => setIsEditingPhoto(true)}
+            style={{ marginTop: '8px' }}
+          >
+            Editar Foto
+          </button>
+        )}
+
+        {editing && isEditingPhoto && (
+          <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <input type="file" accept="image/*" onChange={handlePhotoChange} />
+            {previewSrc && (
+              <button
+                type="button"
+                onClick={() => {
+                  setPhotoBase64('');
+                  setPreviewSrc('');
+                }}
+                style={{ color: 'red' }}
+              >
+                Remover Foto
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => setIsEditingPhoto(false)}
+              style={{ marginTop: '4px' }}
+            >
+              OK
+            </button>
+          </div>
+        )}
       </div>
 
       {!editing ? (
@@ -187,7 +213,6 @@ const ProfilePage = () => {
         </>
       ) : (
         <form onSubmit={handleUpdate} style={{ display: 'grid', gap: '10px' }}>
-          {/* Nome */}
           <div style={{ display: 'flex', gap: '10px' }}>
             <input
               type="text"
@@ -205,7 +230,6 @@ const ProfilePage = () => {
             />
           </div>
 
-          {/* E‑mail e senha */}
           <input
             type="email"
             placeholder="E-mail"
@@ -220,7 +244,6 @@ const ProfilePage = () => {
             onChange={e => setNewPassword(e.target.value)}
           />
 
-          {/* Endereço separado */}
           <div style={{ display: 'flex', gap: '10px' }}>
             <input
               type="text"
@@ -242,7 +265,6 @@ const ProfilePage = () => {
             onChange={e => setNeighborhood(e.target.value)}
           />
 
-          {/* Telefone e nascimento */}
           <input
             type="tel"
             placeholder="Telefone"
@@ -255,29 +277,22 @@ const ProfilePage = () => {
             onChange={e => setBirthdate(e.target.value)}
           />
 
-          {/* Upload de foto */}
-          <label>
-            Foto de Perfil:
-            <input type="file" accept="image/*" onChange={handlePhotoChange} />
-          </label>
-
-          {/* Ações */}
           <div style={{ display: 'flex', gap: '10px' }}>
             <button type="submit">Salvar</button>
             <button
               type="button"
               onClick={() => {
-                // reset
                 setEditing(false);
+                setIsEditingPhoto(false);
                 setNewPassword('');
-                // recarrega estado original
                 setFirstName(user.name.split(' ')[0]);
                 setLastName(user.name.split(' ').slice(1).join(' '));
                 setEmail(user.email);
                 setPhone(user.phone || '');
                 setBirthdate(user.birthdate || '');
-                setPhotoBase64(user.photo || '');
-                setPreviewSrc(user.photo || '');
+                setPhotoBase64(user.photoBase64 || '');
+                setPreviewSrc(user.photoBase64 || '');
+
                 if (user.address) {
                   const ruaMatch = user.address.match(/^(.+?),/);
                   const numeroMatch = user.address.match(/, (\d+)/);

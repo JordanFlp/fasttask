@@ -41,7 +41,7 @@ public class User {
 	@Column(name = "birthdate")
 	private LocalDate birthdate;
 	
-	@Column(name = "photo")
+	@Column(name = "photo", columnDefinition = "MEDIUMBLOB")
 	@Lob
 	private byte[] photo;
 	
