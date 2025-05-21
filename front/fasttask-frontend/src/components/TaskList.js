@@ -118,11 +118,14 @@ const TaskList = ({ userId }) => {
   }, [userId, loadTasks]);
 
   // Filtrar tarefas pelo status
-  const filteredTasks = tasks.filter((task) => {
-    if (filter === 'active') return task.status !== 'CONCLUÍDA';
-    if (filter === 'completed') return task.status === 'CONCLUÍDA';
-    return true;
+ const filteredTasks = tasks.filter((task) => {
+  const statusLower = task.status.toLowerCase();
+  if (filter === 'active') return statusLower !== 'concluída';
+  if (filter === 'completed') return statusLower === 'concluída';
+  return true;
   });
+
+
 
   return (
     <div>

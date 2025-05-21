@@ -15,6 +15,10 @@ const RegisterPage = () => {
   const [phone, setPhone] = useState('');
   const [birthdate, setBirthdate] = useState('');
   const [error, setError] = useState('');
+
+  const [photoBase64, setPhotoBase64] = useState('');
+  const [previewSrc, setPreviewSrc] = useState('');
+
   const navigate = useNavigate();
 
   const formatPhoneNumber = (value) => {
@@ -25,6 +29,31 @@ const RegisterPage = () => {
       return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 3)} ${cleaned.slice(3, 7)}-${cleaned.slice(7)}`;
     }
     return `(${cleaned.slice(0, 2)}) ${cleaned.slice(2, 3)} ${cleaned.slice(3, 7)}-${cleaned.slice(7, 11)}`;
+  };
+
+  const getInitials = (name) => {
+    if (!name || typeof name !== 'string') return '';
+    const parts = name.trim().split(' ').filter(Boolean);
+    if (parts.length === 0) return '';
+    const firstInitial = parts[0][0]?.toUpperCase() || '';
+    const secondInitial = parts[1]?.[0]?.toUpperCase() || '';
+    return `${firstInitial}${secondInitial}`;
+  };
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPhotoBase64(reader.result);
+      setPreviewSrc(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const cleanBase64Image = (base64String) => {
+    if (!base64String || !base64String.includes(',')) return null;
+    return base64String;
   };
 
   const handleRegister = async (e) => {
@@ -40,18 +69,17 @@ const RegisterPage = () => {
     const fullAddress = `${street.trim()}, ${number.trim()} - ${neighborhood.trim()}, ${city.trim()}`.trim();
 
     try {
-      await axios.post(
-        'http://localhost:8080/user',
-        {
-          name: fullName,
-          email,
-          password,
-          address: fullAddress,
-          phone,
-          birthdate,
-        },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
+      await axios.post('http://localhost:8080/user', {
+        name: fullName,
+        email,
+        password,
+        address: fullAddress,
+        phone,
+        birthdate,
+        photoBase64: photoBase64 ? cleanBase64Image(photoBase64) : null,
+      }, {
+        headers: { 'Content-Type': 'application/json' }
+      });
 
       alert('Cadastro realizado com sucesso!');
       navigate('/login');
@@ -66,10 +94,56 @@ const RegisterPage = () => {
   };
 
   return (
-    <form onSubmit={handleRegister} style={{ maxWidth: 400, margin: '0 auto' }}>
+    <form onSubmit={handleRegister} style={{ maxWidth: 400, margin: '0 auto', display: 'grid', gap: '1rem' }}>
       <h2>Cadastro</h2>
 
-      {error && <div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
+      {error && <div style={{ color: 'red' }}>{error}</div>}
+
+      <div style={{ textAlign: 'center' }}>
+        <div
+          style={{
+            width: 80,
+            height: 80,
+            borderRadius: '50%',
+            backgroundColor: '#ccc',
+            overflow: 'hidden',
+            margin: '0 auto 0.5rem',
+          }}
+        >
+          {previewSrc ? (
+            <img src={previewSrc} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          ) : (
+            <div
+              style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 24,
+                color: '#fff',
+              }}
+            >
+              {getInitials(`${firstName} ${lastName}`)}
+            </div>
+          )}
+        </div>
+
+        <input type="file" accept="image/*" onChange={handlePhotoChange} style={{ marginBottom: '0.5rem' }} />
+
+        {previewSrc && (
+          <button
+            type="button"
+            onClick={() => {
+              setPhotoBase64('');
+              setPreviewSrc('');
+            }}
+            style={{ color: 'red', fontSize: '0.9rem' }}
+          >
+            Remover Foto
+          </button>
+        )}
+      </div>
 
       <input
         type="text"
@@ -78,7 +152,6 @@ const RegisterPage = () => {
         onChange={(e) => setFirstName(e.target.value)}
         required
       />
-
       <input
         type="text"
         placeholder="Sobrenome"
@@ -86,15 +159,13 @@ const RegisterPage = () => {
         onChange={(e) => setLastName(e.target.value)}
         required
       />
-
       <input
         type="email"
-        placeholder="E‑mail"
+        placeholder="E-mail"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         required
       />
-
       <input
         type="password"
         placeholder="Senha"
@@ -102,7 +173,6 @@ const RegisterPage = () => {
         onChange={(e) => setPassword(e.target.value)}
         required
       />
-
       <input
         type="password"
         placeholder="Confirme a senha"
@@ -110,35 +180,30 @@ const RegisterPage = () => {
         onChange={(e) => setConfirmPassword(e.target.value)}
         required
       />
-
       <input
         type="text"
         placeholder="Rua"
         value={street}
         onChange={(e) => setStreet(e.target.value)}
       />
-
       <input
         type="text"
         placeholder="Número"
         value={number}
         onChange={(e) => setNumber(e.target.value)}
       />
-
       <input
         type="text"
         placeholder="Bairro"
         value={neighborhood}
         onChange={(e) => setNeighborhood(e.target.value)}
       />
-
       <input
         type="text"
         placeholder="Cidade"
         value={city}
         onChange={(e) => setCity(e.target.value)}
       />
-
       <input
         type="text"
         placeholder="Telefone (XX) X XXXX-XXXX"
@@ -146,7 +211,6 @@ const RegisterPage = () => {
         onChange={(e) => setPhone(formatPhoneNumber(e.target.value))}
         maxLength={16}
       />
-
       <input
         type="date"
         placeholder="Data de nascimento"

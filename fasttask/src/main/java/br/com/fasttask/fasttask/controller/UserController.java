@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import br.com.fasttask.fasttask.dto.CreateUserDTO;
 import br.com.fasttask.fasttask.dto.UpdateUserDTO;
 import br.com.fasttask.fasttask.dto.UserLoginDTO;
 import br.com.fasttask.fasttask.dto.UserResponseDTO;
@@ -27,9 +28,24 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    @PostMapping
-    public ResponseEntity<Object> createUser(@RequestBody User user) {
+   @PostMapping
+    public ResponseEntity<Object> createUser(@RequestBody CreateUserDTO dto) {
         try {
+            byte[] photoBytes = null;
+            if (dto.getPhotoBase64() != null && !dto.getPhotoBase64().isEmpty()) {
+                String[] parts = dto.getPhotoBase64().split(",");
+                photoBytes = Base64.getDecoder().decode(parts[1]);
+            }
+
+            User user = new User();
+            user.setName(dto.getName());
+            user.setEmail(dto.getEmail());
+            user.setPassword(dto.getPassword());
+            user.setAddress(dto.getAddress());
+            user.setPhone(dto.getPhone());
+            user.setBirthdate(LocalDate.parse(dto.getBirthdate()));
+            user.setPhoto(photoBytes);
+
             User newUser = userService.createNewUser(user);
             UserResponseDTO responseDTO = new UserResponseDTO(newUser);
             return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
@@ -41,6 +57,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar usuário!");
         }
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable Integer id) {
@@ -141,3 +158,4 @@ public class UserController {
         }
     }
 }
+

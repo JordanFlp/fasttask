@@ -34,7 +34,7 @@ const DashboardPage = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      {/* Header com nome e avatar */}
+      {/* Header com nome e avatar/foto */}
       <div
         onClick={() => navigate('/profile')}
         style={{
@@ -51,15 +51,23 @@ const DashboardPage = () => {
             height: 40,
             borderRadius: '50%',
             backgroundColor: '#ccc',
-            color: '#fff',
-            fontWeight: 'bold',
+            overflow: 'hidden',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             fontSize: '18px',
+            color: '#fff',
           }}
         >
-          {getInitials(user.name)}
+          {user.photoBase64 ? (
+            <img
+              src={user.photoBase64}
+              alt="Avatar"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          ) : (
+            getInitials(user.name)
+          )}
         </div>
         <h2 style={{ margin: 0 }}>Bem-vindo(a), {user.name}!</h2>
       </div>
