@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import TaskService from '../services/TaskService';
 import TaskForm from './TaskForm';
 import axios from 'axios';
+import '../styles/TaskList.css';
 
 const TaskList = ({ userId }) => {
   const [tasks, setTasks] = useState([]);
@@ -28,7 +29,7 @@ const TaskList = ({ userId }) => {
   const handleDelete = async (taskId) => {
     try {
       await TaskService.deleteTask(taskId);
-      loadTasks();
+      await loadTasks();
     } catch (error) {
       console.error('Erro ao deletar tarefa:', error);
     }
@@ -45,12 +46,17 @@ const TaskList = ({ userId }) => {
     loadTasks();
   };
 
-  const toggleTaskStatus = async (task) => {
-  const statusCycle = {
-    'A fazer': 'Em andamento',
-    'Em andamento': 'Concluída',
-    'Concluída': 'A fazer',
+  const handleFormCancel = () => {
+    setShowForm(false);
+    setEditingTask(null);
   };
+
+  const toggleTaskStatus = async (task) => {
+    const statusCycle = {
+      'A fazer': 'Em andamento',
+      'Em andamento': 'Concluída',
+      'Concluída': 'A fazer',
+    };
 
     const newStatus = statusCycle[task.status] || 'A fazer';
 
@@ -71,7 +77,6 @@ const TaskList = ({ userId }) => {
     try {
       await TaskService.updateTask(task.id, updatedTask);
 
-      // Atualiza a lista de tarefas após alteração
       setTasks((prevTasks) =>
         prevTasks.map((t) =>
           t.id === task.id ? { ...t, status: newStatus } : t
@@ -81,8 +86,6 @@ const TaskList = ({ userId }) => {
       console.error('Erro ao atualizar status da tarefa:', error);
     }
   };
-
-
 
   const toggleSubitem = async (taskId, subitem) => {
     try {
@@ -118,24 +121,24 @@ const TaskList = ({ userId }) => {
   }, [userId, loadTasks]);
 
   // Filtrar tarefas pelo status
- const filteredTasks = tasks.filter((task) => {
-  const statusLower = task.status.toLowerCase();
-  if (filter === 'active') return statusLower !== 'concluída';
-  if (filter === 'completed') return statusLower === 'concluída';
-  return true;
+  const filteredTasks = tasks.filter((task) => {
+    const statusLower = task.status.toLowerCase();
+    if (filter === 'active') return statusLower !== 'concluída';
+    if (filter === 'completed') return statusLower === 'concluída';
+    return true;
   });
 
-
-
   return (
-    <div>
-      <h2>Minhas Tarefas</h2>
-      <button onClick={handleCreateClick}>+ Nova Tarefa</button>
+    <div className="tasklist-container">
+      <div className="tasklist-header">
+        <h2>Minhas Tarefas</h2>
+        <button onClick={handleCreateClick}>+ Nova Tarefa</button>
+      </div>
 
-      <div style={{ margin: '10px 0' }}>
-        <strong>Filtrar:</strong>{' '}
-        <button onClick={() => setFilter('all')}>Todas</button>{' '}
-        <button onClick={() => setFilter('active')}>Ativas</button>{' '}
+      <div className="tasklist-filter">
+        <strong>Filtrar:</strong>
+        <button onClick={() => setFilter('all')}>Todas</button>
+        <button onClick={() => setFilter('active')}>Ativas</button>
         <button onClick={() => setFilter('completed')}>Concluídas</button>
       </div>
 
@@ -144,6 +147,7 @@ const TaskList = ({ userId }) => {
           task={editingTask}
           userId={userId}
           onSuccess={handleFormSuccess}
+          onCancel={handleFormCancel}
         />
       )}
 
@@ -151,31 +155,23 @@ const TaskList = ({ userId }) => {
         <p>Nenhuma tarefa encontrada com esse filtro.</p>
       ) : (
         filteredTasks.map((task) => (
-          <div
-            key={task.id}
-            style={{
-              border: '1px solid #ccc',
-              padding: '15px',
-              margin: '10px 0',
-              borderRadius: '8px',
-            }}
-          >
+          <div key={task.id} className="task-card">
             <h3>{task.name}</h3>
             <p><strong>Descrição:</strong> {task.description || '—'}</p>
             <p>
-                <strong>Status:</strong>{' '}
-                <button onClick={() => toggleTaskStatus(task)}>
-                  {task.status === 'Concluída'
-                    ? '✅ Concluída'
-                    : task.status === 'Em andamento'
-                    ? '🚧 Em andamento'
-                    : '🕒 A fazer'}
-                </button>
-              </p>
+              <strong>Status:</strong>{' '}
+              <button className="status-button" onClick={() => toggleTaskStatus(task)}>
+                {task.status === 'Concluída'
+                  ? '✅ Concluída'
+                  : task.status === 'Em andamento'
+                  ? '🚧 Em andamento'
+                  : '🕒 A fazer'}
+              </button>
+            </p>
             <p><strong>Prioridade:</strong> {task.priority}</p>
 
-            {task.subitems && task.subitems.length > 0 && (
-              <div>
+            {task.subitems?.length > 0 && (
+              <div className="task-subitems">
                 <strong>Subitens:</strong>
                 <ul>
                   {task.subitems.map((subitem) => (
@@ -200,7 +196,7 @@ const TaskList = ({ userId }) => {
               </div>
             )}
 
-            <div style={{ marginTop: '10px' }}>
+            <div className="task-buttons">
               <button onClick={() => handleEdit(task)}>Editar</button>
               <button onClick={() => handleDelete(task.id)}>Excluir</button>
             </div>

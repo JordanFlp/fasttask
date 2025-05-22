@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TaskList from '../components/TaskList';
+import '../styles/Dashboard.css';
 
 const getInitials = (name) => {
   if (!name) return '';
@@ -32,53 +33,27 @@ const DashboardPage = () => {
     return <div>Carregando...</div>;
   }
 
-  return (
-    <div style={{ padding: '20px' }}>
-      {/* Header com nome e avatar/foto */}
-      <div
-        onClick={() => navigate('/profile')}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '10px',
-          cursor: 'pointer',
-          marginBottom: '20px',
-        }}
-      >
-        <div
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: '50%',
-            backgroundColor: '#ccc',
-            overflow: 'hidden',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            fontSize: '18px',
-            color: '#fff',
-          }}
-        >
-          {user.photoBase64 ? (
-            <img
-              src={user.photoBase64}
-              alt="Avatar"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-          ) : (
-            getInitials(user.name)
-          )}
-        </div>
-        <h2 style={{ margin: 0 }}>Bem-vindo(a), {user.name}!</h2>
-      </div>
+    return (
+    <div className="dashboard-container">
+      <div className="dashboard-header">
+    <div className="dashboard-avatar" onClick={() => navigate('/profile')}>
+      {user.photoBase64 ? (
+        <img src={user.photoBase64} alt="Avatar" />
+      ) : (
+        getInitials(user.name)
+      )}
+    </div>
+    <h2 className="dashboard-welcome">Bem-vindo(a), {user.name}!</h2>
+    <button className="dashboard-logout" onClick={handleLogout}>
+      Sair
+    </button>
+  </div>
 
-      <button onClick={handleLogout} style={{ marginBottom: '20px' }}>
-        Sair
-      </button>
 
       <TaskList userId={user.id} />
     </div>
   );
+
 };
 
 export default DashboardPage;

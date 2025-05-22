@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import TaskService from '../services/TaskService';
 
-const TaskForm = ({ task, userId, onSuccess }) => {
+const TaskForm = ({ task, userId, onSuccess, onCancel }) => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -9,6 +9,9 @@ const TaskForm = ({ task, userId, onSuccess }) => {
     priority: 'Baixa',
     subitems: [],
   });
+
+  // Estado para controlar a animação de saída
+  const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
     if (task) {
@@ -30,19 +33,18 @@ const TaskForm = ({ task, userId, onSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Filtra subitens vazios antes de enviar
-    const validSubitems = formData.subitems.filter(subitem => subitem.description.trim() !== ''); 
+    const validSubitems = formData.subitems.filter(subitem => subitem.description.trim() !== '');
 
     const taskPayload = {
       ...task,
       ...formData,
       user: { id: userId },
       subitems: validSubitems.map(subitem => ({
-        description: subitem.description, 
-        active: true, 
+        description: subitem.description,
+        active: true,
       })),
     };
-    console.log('Enviando tarefa:', taskPayload);
+
     try {
       if (task && task.id) {
         await TaskService.updateTask(task.id, taskPayload);
@@ -50,7 +52,7 @@ const TaskForm = ({ task, userId, onSuccess }) => {
         await TaskService.createTask(taskPayload);
       }
 
-      onSuccess(); 
+      onSuccess();
     } catch (error) {
       console.error('Erro ao salvar tarefa:', error);
     }
@@ -59,13 +61,13 @@ const TaskForm = ({ task, userId, onSuccess }) => {
   const handleAddSubitem = () => {
     setFormData(prev => ({
       ...prev,
-      subitems: [...prev.subitems, { description: '' }], 
+      subitems: [...prev.subitems, { description: '' }],
     }));
   };
 
   const handleSubitemChange = (index, value) => {
     const updated = [...formData.subitems];
-    updated[index].description = value; 
+    updated[index].description = value;
     setFormData(prev => ({ ...prev, subitems: updated }));
   };
 
@@ -74,8 +76,24 @@ const TaskForm = ({ task, userId, onSuccess }) => {
     setFormData(prev => ({ ...prev, subitems: updated }));
   };
 
+  // Função para animar o fechamento e depois chamar onCancel
+  const handleCancelClick = () => {
+    setIsClosing(true); // inicia animação
+
+    setTimeout(() => {
+      onCancel();
+      setIsClosing(false); // reseta para caso reabra o form
+    }, 300); // duração da animação em ms (deve bater com o CSS)
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form
+      onSubmit={handleSubmit}
+      style={{
+        opacity: isClosing ? 0 : 1,
+        transition: 'opacity 300ms ease',
+      }}
+    >
       <h3>{task ? 'Editar Tarefa' : 'Nova Tarefa'}</h3>
 
       <input
@@ -86,7 +104,7 @@ const TaskForm = ({ task, userId, onSuccess }) => {
         onChange={handleChange}
         required
       />
-      
+
       <input
         type="text"
         name="description"
@@ -94,27 +112,26 @@ const TaskForm = ({ task, userId, onSuccess }) => {
         value={formData.description}
         onChange={handleChange}
       />
-      
+
       <select name="status" value={formData.status} onChange={handleChange}>
         <option value="A fazer">A fazer</option>
         <option value="Em andamento">Em andamento</option>
         <option value="Concluída">Concluída</option>
       </select>
-      
+
       <select name="priority" value={formData.priority} onChange={handleChange}>
         <option value="Baixa">Baixa</option>
         <option value="Média">Média</option>
         <option value="Alta">Alta</option>
       </select>
-      
-      {/* Renderização dos Subitens */}
+
       <h4>Subitens</h4>
       {formData.subitems.map((subitem, index) => (
         <div key={index}>
           <input
             type="text"
             placeholder={`Subitem ${index + 1}`}
-            value={subitem.description} 
+            value={subitem.description}
             onChange={(e) => handleSubitemChange(index, e.target.value)}
           />
           <button type="button" onClick={() => handleRemoveSubitem(index)}>Remover</button>
@@ -122,7 +139,12 @@ const TaskForm = ({ task, userId, onSuccess }) => {
       ))}
       <button type="button" onClick={handleAddSubitem}>+ Adicionar Subitem</button>
 
-      <button type="submit">{task ? 'Salvar Alterações' : 'Criar Tarefa'}</button>
+      <div style={{ marginTop: '1rem' }}>
+        <button type="submit">{task ? 'Salvar Alterações' : 'Criar Tarefa'}</button>
+        <button type="button" onClick={handleCancelClick} style={{ marginLeft: '1rem' }}>
+          Cancelar
+        </button>
+      </div>
     </form>
   );
 };
