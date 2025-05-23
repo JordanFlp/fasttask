@@ -12,6 +12,22 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+}
+
+.ft-nav-menu {
+  display: none;
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+  flex-direction: column;
+  text-align: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.ft-nav-menu.open {
+  display: flex;
 }
 
 .ft-nav-top {
@@ -39,10 +55,6 @@
   background: var(--ft-gradient-blue);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-.ft-menu-toggle {
-  display: none;
 }
 
 .ft-menu-label {

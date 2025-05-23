@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./style.css";
 import Logo from "../../../assets/images/symbol_blue.svg";
 
 const Header: React.FC = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const handleMenuToggle = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
     <header className="ft-header">
       <nav className="ft-nav">
@@ -14,18 +20,13 @@ const Header: React.FC = () => {
               <span className="ft-logo-text">Fast Task</span>
             </Link>
           </div>
-          <input
-            type="checkbox"
-            id="ft-menu-toggle"
-            className="ft-menu-toggle"
-          />
-          <label htmlFor="ft-menu-toggle" className="ft-menu-label">
+          <div className="ft-menu-label" onClick={handleMenuToggle}>
             <span className="ft-menu-icon"></span>
             <span className="ft-menu-icon"></span>
             <span className="ft-menu-icon"></span>
-          </label>
+          </div>
         </div>
-        <ul className="ft-nav-menu">
+        <ul className={`ft-nav-menu ${menuOpen ? "open" : ""}`}>
           <li className="ft-nav-item">
             <Link to="/" className="ft-nav-link">
               Início
@@ -47,7 +48,7 @@ const Header: React.FC = () => {
             </Link>
           </li>
           <li className="ft-nav-item">
-            <Link to="http://localhost:8080/login" className="ft-btn ft-btn-primary ft-btn-login">
+            <Link to="http://localhost:3000/login" className="ft-btn-login">
               Entrar
             </Link>
           </li>

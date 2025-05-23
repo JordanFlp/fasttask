@@ -16,7 +16,7 @@ const HeroSection: React.FC = () => {
           Um gerenciador de tarefas intuitivo, com login seguro, listas personalizadas e visualização responsiva.
         </p>
         <div className="ft-hero-buttons">
-          <Button to="/comecar" className="ft-btn-primary">Comece agora</Button>
+          <Button to="http://localhost:3000/login" className="ft-btn-primary">Comece agora</Button>
           <Button href="/saiba-mais" className="ft-btn-secondary">Saiba mais</Button>
         </div>
       </div>
