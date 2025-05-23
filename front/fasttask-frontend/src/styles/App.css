@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 :root {
-  
   --ft-btn-transition: all 0.3s ease;
   --ft-btn-shadow-primary: 0 2px 5px rgba(42, 182, 165, 0.3);
   --ft-btn-shadow-secondary: 0 2px 5px rgba(16, 55, 92, 0.3);
@@ -94,9 +93,35 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding-top: 40px;
-  background: var(--ft-color-bg-light);
-  min-height: calc(100vh - var(--header-height));
+  min-height: 100vh;
+  background: linear-gradient(135deg, #133859 0%, #1a4b75 100%);
+  padding: 2rem;
+  padding-top: 10vh;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.auth-layout::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  top: -300px;
+  right: -300px;
+}
+
+.auth-layout::after {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 50%;
+  bottom: -200px;
+  left: -200px;
 }
 
 /* Layout para páginas normais */
@@ -278,11 +303,23 @@ body {
   .ft-btn-block {
     padding: 0.75rem 1.25rem;
   }
+
+  /* Ajustes para auth-layout em telas menores */
+  .auth-layout {
+    padding-top: 8vh;
+    align-items: center;
+  }
 }
 
 @media (max-width: 480px) {
   .ft-btn {
     padding: 0.6rem 1.1rem;
     font-size: 0.9rem;
+  }
+
+  /* Ajustes para auth-layout em telas muito pequenas */
+  .auth-layout {
+    padding: 1rem;
+    padding-top: 5vh;
   }
 }

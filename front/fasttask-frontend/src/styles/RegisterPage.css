@@ -1,0 +1,313 @@
+.register-form-container {
+  width: 600px;
+  max-width: 90%;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  z-index: 1;
+  position: relative;
+}
+
+.register-header {
+  background: var(--ft-color-primary);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.register-header::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), transparent);
+  z-index: 1;
+}
+
+.register-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+.register-inner-form {
+  padding: 2.5rem; 
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; 
+}
+
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+
+.input-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ft-color-secondary);
+}
+
+.register-inner-form input[type="text"],
+.register-inner-form input[type="email"],
+.register-inner-form input[type="password"],
+.register-inner-form input[type="date"],
+.register-inner-form input[type="tel"],
+.register-inner-form input[type="file"] { 
+  padding: 1rem;
+  border: 2px solid #e1e8ed;
+  border-radius: var(--border-radius);
+  font-family: var(--ft-font-family);
+  font-size: 1rem;
+  color: var(--ft-color-text-main);
+  transition: all 0.3s ease;
+  background-color: #f8fafc;
+  width: 100%;
+}
+
+.register-inner-form input[type="text"]:focus,
+.register-inner-form input[type="email"]:focus,
+.register-inner-form input[type="password"]:focus,
+.register-inner-form input[type="date"]:focus,
+.register-inner-form input[type="tel"]:focus,
+.register-inner-form input[type="file"]:focus {
+  outline: none;
+  border-color: var(--ft-color-primary);
+  box-shadow: 0 0 0 3px rgba(42, 182, 165, 0.2);
+  background-color: white;
+}
+
+.register-inner-form input::placeholder {
+  color: var(--ft-color-text-muted);
+}
+
+.register-inner-form .error-message {
+  background-color: rgba(231, 76, 60, 0.1);
+  color: var(--ft-color-error);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  text-align: center;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  border-left: 4px solid var(--ft-color-error);
+}
+
+.photo-upload-section {
+  text-align: center;
+  margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem; 
+}
+
+.avatar-container {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-color: #ccc;
+  overflow: hidden;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #fff;
+  border: 3px solid var(--ft-color-primary);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0; 
+  background-image: url('https://placehold.co/90x90/2AB6A5/ffffff?text=FT');
+  background-size: cover;
+  background-position: center;
+}
+
+.avatar-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-initials {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--ft-color-secondary);
+  color: white;
+  font-weight: 600;
+}
+
+.default-avatar-icon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white; 
+}
+
+.default-avatar-icon svg {
+  width: 50%;
+  height: 50%;
+}
+
+.hidden-file-input {
+  display: none;
+}
+
+.custom-file-input-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.custom-upload-button {
+  background-color: var(--ft-color-secondary);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  font-family: var(--ft-font-family);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--ft-btn-transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: var(--ft-btn-shadow-secondary);
+}
+
+.custom-upload-button:hover {
+  cursor: pointer;
+}
+
+.custom-upload-button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.remove-photo-button {
+  background: none;
+  border: 1px solid var(--ft-color-error);
+  color: var(--ft-color-error);
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.remove-photo-button:hover {
+  background-color: rgba(231, 76, 60, 0.1);
+  color: darken(var(--ft-color-error), 10%);
+  transform: translateY(-1px);
+}
+
+
+.register-inner-form .ft-btn-primary {
+  margin-top: 0.5rem;
+}
+
+.form-footer {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.register-link {
+  color: #7A7A7A;
+  font-size: 0.95rem;
+}
+
+.register-link-text {
+  color: var(--ft-color-primary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.register-link-text:hover {
+  color: var(--ft-color-accent);
+}
+
+.register-link-text::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--ft-color-accent);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.register-link-text:hover::after {
+  transform: scaleX(1);
+}
+
+@media (min-width: 1200px) {
+  .register-form-container {
+    width: 1000px;
+  }
+}
+
+@media (max-width: 768px) {
+  .register-form-container {
+    max-width: 400px;
+  }
+  .register-header, .register-inner-form {
+    padding: 1.5rem;
+  }
+  .register-header h2 {
+    font-size: 1.6rem;
+  }
+  .register-inner-form input[type="text"],
+  .register-inner-form input[type="email"],
+  .register-inner-form input[type="password"],
+  .register-inner-form input[type="date"],
+  .register-inner-form input[type="tel"],
+  .register-inner-form input[type="file"] {
+    padding: 0.8rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .register-form-container {
+    max-width: 90%;
+  }
+  .register-header, .register-inner-form {
+    padding: 1rem;
+  }
+  .register-header h2 {
+    font-size: 1.4rem;
+  }
+  .register-inner-form input[type="text"],
+  .register-inner-form input[type="email"],
+  .register-inner-form input[type="password"],
+  .register-inner-form input[type="date"],
+  .register-inner-form input[type="tel"],
+  .register-inner-form input[type="file"] {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+  .avatar-container {
+    width: 70px;
+    height: 70px;
+    font-size: 20px;
+  }
+}
