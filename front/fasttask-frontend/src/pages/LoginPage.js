@@ -1,18 +1,29 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import '../styles/LoginPage.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-      console.log('Tentando fazer login com os seguintes dados:', { email, password });
+    setErrorMsg('');
+    setLoading(true);
 
-      const response = await axios.post('http://localhost:8080/user/login', 
+    if (!email.includes('@')) {
+      setErrorMsg('Por favor, insira um e-mail válido.');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/user/login',
         { email, password },
         {
           headers: { 'Content-Type': 'application/json' },
@@ -20,42 +31,76 @@ const LoginPage = () => {
         }
       );
 
-      console.log('Resposta do backend:', response.data);
       localStorage.setItem('user', JSON.stringify(response.data));
       navigate('/dashboard');
     } catch (error) {
-      console.error('Erro no login:', error);
       if (error.response) {
-        alert(`Erro no login: ${error.response.data || error.message}`);
+        setErrorMsg(error.response.data || 'Credenciais inválidas');
       } else {
-        alert('Erro na conexão com o servidor!');
+        setErrorMsg('Erro na conexão com o servidor.');
       }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <h2>Login</h2>
-      <input
-        type="email"
-        placeholder="E-mail"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Senha"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Entrar</button>
+    <div className="auth-layout">
+      <div className="login-container">
+        <div className="login-header">
+          <h2>Bem-vindo</h2>
+        </div>
+        
+        <form className="login-form" onSubmit={handleLogin}>
+          {errorMsg && <div className="error-message">{errorMsg}</div>}
 
-      <p style={{ marginTop: '1rem' }}>
-        Não tem uma conta? <Link to="/register">Cadastre-se</Link>
-      </p>
-    </form>
+          <div className="form-group">
+            <label htmlFor="email" className="input-label">E-mail</label>
+            <input
+              id="email"
+              type="email"
+              className="form-input"
+              placeholder="Digite seu e-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password" className="input-label">Senha</label>
+            <input
+              id="password"
+              type="password"
+              className="form-input"
+              placeholder="Digite sua senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="current-password"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className={`ft-btn ft-btn-primary ft-btn-block ${loading ? 'ft-btn-loading' : ''}`}
+            disabled={loading}
+          >
+            {loading ? 'Entrando...' : 'Entrar'}
+          </button>
+
+          <div className="form-footer">
+            <p className="register-link">
+              Não tem uma conta?{' '}
+              <Link to="/register" className="register-link-text">
+                Cadastre-se
+              </Link>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 

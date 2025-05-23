@@ -132,7 +132,7 @@ const TaskList = ({ userId }) => {
     <div className="tasklist-container">
       <div className="tasklist-header">
         <h2>Minhas Tarefas</h2>
-        <button onClick={handleCreateClick}>+ Nova Tarefa</button>
+        <button onClick={handleCreateClick}>Nova Tarefa</button>
       </div>
 
       <div className="tasklist-filter">

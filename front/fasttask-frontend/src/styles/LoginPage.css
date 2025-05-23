@@ -1,0 +1,200 @@
+.auth-layout {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Mudado de 'center' para 'flex-start' */
+  min-height: 100vh;
+  background: linear-gradient(135deg, #133859 0%, #1a4b75 100%);
+  padding: 2rem;
+  padding-top: 10vh; /* Adicionado padding no topo */
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.auth-layout::before {
+  content: '';
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  top: -300px;
+  right: -300px;
+}
+
+.auth-layout::after {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 50%;
+  bottom: -200px;
+  left: -200px;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  z-index: 1;
+  position: relative;
+  margin-top: 5vh; /* Adiciona margem superior */
+  transform: translateY(-5%); /* Puxa o container 5% para cima */
+}
+
+/* Cabeçalho do formulário */
+.login-header {
+  background: #2AB6A5;
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Adicione um efeito de profundidade */
+.login-header::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), transparent);
+  z-index: 1;
+}
+
+.login-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.5px;
+}
+
+/* Corpo do formulário */
+.login-form {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 480px;
+}
+
+/* Grupos de campos */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #133859;
+}
+
+.form-input {
+  padding: 1rem;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: var(--ft-font-family);
+  transition: all 0.3s ease;
+  background-color: #f8fafc;
+}
+
+.form-input:focus {
+  border-color: #2AB6A5;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(42, 182, 165, 0.2);
+  background-color: white;
+}
+
+/* Mensagem de erro */
+.error-message {
+  background-color: rgba(231, 76, 60, 0.1);
+  color: #E74C3C;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  border-left: 4px solid #E74C3C;
+}
+
+/* Rodapé do formulário */
+.form-footer {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.register-link {
+  color: #7A7A7A;
+  font-size: 0.95rem;
+}
+
+.register-link-text {
+  color: #2AB6A5;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.register-link-text:hover {
+  color: #3ED0C0;
+}
+
+.register-link-text::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #3ED0C0;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.register-link-text:hover::after {
+  transform: scaleX(1);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .auth-layout {
+    padding: 1.5rem;
+  }
+  
+  .login-header {
+    padding: 1.5rem;
+  }
+  
+  .login-form {
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .auth-layout {
+    padding-top: 8vh;
+    align-items: center; /* Centraliza em mobile */
+  }
+  
+  .login-container {
+    margin-top: 0;
+    transform: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-layout {
+    padding: 1rem;
+    padding-top: 5vh;
+  }
+}

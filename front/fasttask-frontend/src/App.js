@@ -11,12 +11,16 @@ function App() {
 
   return (
     <Router>
-      <div className="app-container">
-        <header className="app-header">
+      <div className="app-root">  
+       <header className="app-header">
+        <div className="header-content">
           <img src="/logo_icon.png" alt="FastTask Logo" className="app-logo" />
-        </header>
+          <h1 className="app-brand">FastTask</h1>
+        </div>
+      </header>
 
-        <main className="app-main">
+        {/* Container flexível baseado na rota */}
+        <div className={`app-content ${['/login', '/register'].includes(window.location.pathname) ? 'auth-layout' : 'default-layout'}`}>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
@@ -30,7 +34,7 @@ function App() {
             />
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
-        </main>
+        </div>
       </div>
     </Router>
   );

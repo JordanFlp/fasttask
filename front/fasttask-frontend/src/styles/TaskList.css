@@ -1,79 +1,339 @@
+/* Container principal - Tela cheia */
 .tasklist-container {
-  max-width: 800px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 1400px; /* Aumentado para telas grandes */
   margin: 0 auto;
-  padding: 20px;
+  box-sizing: border-box;
 }
 
+/* Grade de tarefas para desktop */
+.tasklist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Colunas flexíveis */
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+/* Cabeçalho otimizado */
 .tasklist-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 2rem;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 1.5rem;
+  background: white;
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
 }
 
 .tasklist-header h2 {
+  color: var(--ft-color-secondary);
+  font-size: 1.8rem;
   margin: 0;
-  color: #022f40;
+  flex-grow: 1;
 }
 
-.tasklist-filter {
-  margin: 20px 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.tasklist-filter button,
-.tasklist-header button,
-.task-buttons button,
-.status-button {
-  background-color: #49a0d3;
+/* Botão principal destacado */
+.tasklist-header button {
+  background: var(--ft-gradient-blue);
+  border-color: 2px solid var(--ft-color-primary);
+  color: #2AB6A5;
   border: none;
-  color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
+  padding: 0.85rem 2rem;
+  border-radius: 50px;
+  font-family: var(--ft-font-family);
+  font-weight: 700;
   cursor: pointer;
-  font-weight: bold;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: 0 4px 6px rgba(42, 182, 165, 0.15);
+  min-width: 180px;
+  justify-content: center;
 }
 
-.status-button {
-  background-color: #022f40;
+.tasklist-header button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(42, 182, 165, 0.25);
 }
 
+.tasklist-header button::before {
+  content: "+";
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+/* Filtros modernos */
+.tasklist-filter {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.tasklist-filter strong {
+  color: var(--ft-color-secondary);
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.tasklist-filter button {
+  background: none;
+  border: 2px solid var(--ft-color-primary);
+  color: var(--ft-color-primary);
+  padding: 0.6rem 1.5rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.tasklist-filter button:hover, 
+.tasklist-filter button.active {
+  background-color: var(--ft-color-primary);
+  color: white;
+}
+
+/* Cartão de tarefa ampliado */
 .task-card {
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin: 10px 0;
-  border-radius: 8px;
-  background-color: #f9f9f9;
+  background: white;
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-top: 4px solid var(--ft-color-primary);
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.task-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
 .task-card h3 {
-  margin-top: 0;
-  color: #022f40;
+  color: var(--ft-color-secondary);
+  margin: 0 0 1rem 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.task-card p {
+  margin: 0.75rem 0;
+  color: var(--ft-color-text-main);
+  line-height: 1.5;
+}
+
+/* Status com badges */
+.status-button {
+  background: rgba(42, 182, 165, 0.1);
+  color: var(--ft-color-primary);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--ft-font-family);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-button:hover {
+  background: rgba(42, 182, 165, 0.2);
+}
+
+/* Prioridade com tags */
+.task-priority {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 0.5rem;
+}
+
+.priority-high {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.priority-medium {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.priority-low {
+  background-color: #ecfdf5;
+  color: #059669;
+}
+
+/* Subitens melhorados */
+.task-subitems {
+  margin: 1.5rem 0 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f0f0f0;
+  flex-grow: 1;
+}
+
+.task-subitems strong {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--ft-color-secondary);
 }
 
 .task-subitems ul {
-  padding-left: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.task-buttons {
-  margin-top: 10px;
+.task-subitems li {
+  margin-bottom: 0.75rem;
   display: flex;
-  gap: 10px;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background 0.2s ease;
 }
 
-@media (max-width: 600px) {
-  .tasklist-container {
-    padding: 10px;
-  }
+.task-subitems li:hover {
+  background: #f8fafc;
+}
 
+.task-subitems input[type="checkbox"] {
+  margin-right: 0.75rem;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ft-color-primary);
+}
+
+.task-subitems span {
+  flex-grow: 1;
+}
+
+/* Botões de ação */
+.task-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.task-buttons button {
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  font-family: var(--ft-font-family);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+  text-align: center;
+}
+
+.task-buttons button:first-child {
+  background-color: var(--ft-color-secondary);
+  color: white;
+  border: none;
+}
+
+.task-buttons button:first-child:hover {
+  background-color: #0d3a66;
+}
+
+.task-buttons button:last-child {
+  background-color: transparent;
+  color: var(--ft-color-error);
+  border: 2px solid var(--ft-color-error);
+}
+
+.task-buttons button:last-child:hover {
+  background-color: rgba(231, 76, 60, 0.05);
+}
+
+/* Mensagem de lista vazia */
+.tasklist-empty {
+  text-align: center;
+  color: var(--ft-color-text-muted);
+  padding: 3rem;
+  background: white;
+  border-radius: var(--border-radius);
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+  grid-column: 1 / -1;
+}
+
+.tasklist-empty p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Responsividade */
+@media (max-width: 1200px) {
+  .tasklist-grid {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+}
+
+@media (max-width: 992px) {
+  .tasklist-container {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .tasklist-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .tasklist-header button {
+    width: 100%;
+  }
+  
+  .tasklist-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .task-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .tasklist-container {
+    padding: 1rem;
+  }
+  
+  .tasklist-filter {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  
+  .tasklist-filter button {
+    width: 100%;
+  }
+  
   .task-buttons {
     flex-direction: column;
   }
-
-  .tasklist-filter {
-    flex-direction: column;
+  
+  .task-subitems li {
+    padding: 0.75rem;
   }
 }

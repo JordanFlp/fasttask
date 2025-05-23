@@ -19,7 +19,6 @@ const DashboardPage = () => {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     } else {
-      alert('Você precisa fazer login primeiro!');
       navigate('/login');
     }
   }, [navigate]);
@@ -30,30 +29,30 @@ const DashboardPage = () => {
   };
 
   if (!user) {
-    return <div>Carregando...</div>;
+    return <div className="dashboard-loading">Carregando...</div>;
   }
 
-    return (
+  return (
     <div className="dashboard-container">
-      <div className="dashboard-header">
-    <div className="dashboard-avatar" onClick={() => navigate('/profile')}>
-      {user.photoBase64 ? (
-        <img src={user.photoBase64} alt="Avatar" />
-      ) : (
-        getInitials(user.name)
-      )}
-    </div>
-    <h2 className="dashboard-welcome">Bem-vindo(a), {user.name}!</h2>
-    <button className="dashboard-logout" onClick={handleLogout}>
-      Sair
-    </button>
-  </div>
+      <header className="dashboard-header">
+        <div className="dashboard-avatar" onClick={() => navigate('/profile')}>
+          {user.photoBase64 ? (
+            <img src={user.photoBase64} alt="Avatar" />
+          ) : (
+            getInitials(user.name)
+          )}
+        </div>
+        <h2 className="dashboard-welcome">Bem-vindo(a), {user.name.split(' ')[0]}!</h2>
+        <button className="dashboard-logout" onClick={handleLogout}>
+          Sair
+        </button>
+      </header>
 
-
-      <TaskList userId={user.id} />
+      <main className="dashboard-content">
+        <TaskList userId={user.id} />
+      </main>
     </div>
   );
-
 };
 
 export default DashboardPage;
