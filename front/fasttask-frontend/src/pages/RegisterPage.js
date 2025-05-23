@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import '../styles/RegisterPage.css';
 
 const RegisterPage = () => {
   const [firstName, setFirstName] = useState('');
@@ -81,8 +82,8 @@ const RegisterPage = () => {
         headers: { 'Content-Type': 'application/json' }
       });
 
-      alert('Cadastro realizado com sucesso!');
-      navigate('/login');
+      console.log('Cadastro realizado com sucesso!');
+      navigate('/dashboard');
     } catch (err) {
       console.error('Erro no cadastro:', err);
       if (err.response?.data) {
@@ -94,134 +95,201 @@ const RegisterPage = () => {
   };
 
   return (
-    <form onSubmit={handleRegister} style={{ maxWidth: 400, margin: '0 auto', display: 'grid', gap: '1rem' }}>
-      <h2>Cadastro</h2>
-
-      {error && <div style={{ color: 'red' }}>{error}</div>}
-
-      <div style={{ textAlign: 'center' }}>
-        <div
-          style={{
-            width: 80,
-            height: 80,
-            borderRadius: '50%',
-            backgroundColor: '#ccc',
-            overflow: 'hidden',
-            margin: '0 auto 0.5rem',
-          }}
-        >
-          {previewSrc ? (
-            <img src={previewSrc} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          ) : (
-            <div
-              style={{
-                width: '100%',
-                height: '100%',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 24,
-                color: '#fff',
-              }}
-            >
-              {getInitials(`${firstName} ${lastName}`)}
-            </div>
-          )}
+    <div className="auth-layout">
+      <div className="register-form-container">
+        <div className="register-header">
+          <h2>Cadastro</h2>
         </div>
+        
+        <form onSubmit={handleRegister} className="register-inner-form">
+          {error && <div className="error-message">{error}</div>}
 
-        <input type="file" accept="image/*" onChange={handlePhotoChange} style={{ marginBottom: '0.5rem' }} />
+          <div className="form-group">
+            <label htmlFor="photo" className="input-label">Foto de Perfil</label>
+            <div className="photo-upload-section">
+              <div className="avatar-container">
+                {previewSrc ? (
+                  <img src={previewSrc} alt="Avatar" />
+                ) : (
+                  (firstName || lastName) ? (
+                    <div className="avatar-initials">
+                      {getInitials(`${firstName} ${lastName}`)}
+                    </div>
+                  ) : (
+                    <div className="default-avatar-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                        <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                  )
+                )}
+              </div>
+              <div className="custom-file-input-wrapper">
+                <input id="photo" type="file" accept="image/*" onChange={handlePhotoChange} className="hidden-file-input" />
+                <label htmlFor="photo" className="custom-upload-button">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+                    <path fillRule="evenodd" d="M11.47 2.47a.75.75 0 0 1 1.06 0l3.75 3.75a.75.75 0 0 1-1.06 1.06L12 4.81v11.69a.75.75 0 0 1-1.5 0V4.81L8.78 7.28a.75.75 0 0 1-1.06-1.06l3.75-3.75Z" clipRule="evenodd" />
+                    <path fillRule="evenodd" d="M2.25 13.5a.75.75 0 0 0 0 1.5h19.5a.75.75 0 0 0 0-1.5H2.25Z" clipRule="evenodd" />
+                  </svg>
+                  Escolher Arquivo
+                </label>
+              </div>
+              {previewSrc && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPhotoBase64('');
+                    setPreviewSrc('');
+                  }}
+                  className="remove-photo-button"
+                >
+                  Remover Foto
+                </button>
+              )}
+            </div>
+          </div>
 
-        {previewSrc && (
-          <button
-            type="button"
-            onClick={() => {
-              setPhotoBase64('');
-              setPreviewSrc('');
-            }}
-            style={{ color: 'red', fontSize: '0.9rem' }}
-          >
-            Remover Foto
+          <div className="form-group">
+            <label htmlFor="firstName" className="input-label">Nome</label>
+            <input
+              id="firstName"
+              type="text"
+              placeholder="Digite seu nome"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="lastName" className="input-label">Sobrenome</label>
+            <input
+              id="lastName"
+              type="text"
+              placeholder="Digite seu sobrenome"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="email" className="input-label">E-mail</label>
+            <input
+              id="email"
+              type="email"
+              placeholder="Digite seu e-mail"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password" className="input-label">Senha</label>
+            <input
+              id="password"
+              type="password"
+              placeholder="Digite sua senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="confirmPassword" className="input-label">Confirme a senha</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              placeholder="Confirme sua senha"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="street" className="input-label">Rua</label>
+            <input
+              id="street"
+              type="text"
+              placeholder="Digite sua rua"
+              value={street}
+              onChange={(e) => setStreet(e.target.value)}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="number" className="input-label">Número</label>
+            <input
+              id="number"
+              type="text"
+              placeholder="Número da residência"
+              value={number}
+              onChange={(e) => setNumber(e.target.value)}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="neighborhood" className="input-label">Bairro</label>
+            <input
+              id="neighborhood"
+              type="text"
+              placeholder="Digite seu bairro"
+              value={neighborhood}
+              onChange={(e) => setNeighborhood(e.target.value)}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="city" className="input-label">Cidade</label>
+            <input
+              id="city"
+              type="text"
+              placeholder="Digite sua cidade"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="phone" className="input-label">Telefone</label>
+            <input
+              id="phone"
+              type="tel"
+              placeholder="Telefone (XX) X XXXX-XXXX"
+              value={phone}
+              onChange={(e) => setPhone(formatPhoneNumber(e.target.value))}
+              maxLength={16}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="birthdate" className="input-label">Data de Nascimento</label>
+            <input
+              id="birthdate"
+              type="date"
+              value={birthdate}
+              onChange={(e) => setBirthdate(e.target.value)}
+            />
+          </div>
+
+          <button type="submit" className="ft-btn ft-btn-primary ft-btn-block">
+            Cadastrar
           </button>
-        )}
+
+          <div className="form-footer">
+            <p className="register-link">
+              Já tem uma conta?{' '}
+              <Link to="/login" className="register-link-text">
+                Entrar
+              </Link>
+            </p>
+          </div>
+        </form>
       </div>
-
-      <input
-        type="text"
-        placeholder="Nome"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Sobrenome"
-        value={lastName}
-        onChange={(e) => setLastName(e.target.value)}
-        required
-      />
-      <input
-        type="email"
-        placeholder="E-mail"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Senha"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Confirme a senha"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Rua"
-        value={street}
-        onChange={(e) => setStreet(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Número"
-        value={number}
-        onChange={(e) => setNumber(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Bairro"
-        value={neighborhood}
-        onChange={(e) => setNeighborhood(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Cidade"
-        value={city}
-        onChange={(e) => setCity(e.target.value)}
-      />
-      <input
-        type="text"
-        placeholder="Telefone (XX) X XXXX-XXXX"
-        value={phone}
-        onChange={(e) => setPhone(formatPhoneNumber(e.target.value))}
-        maxLength={16}
-      />
-      <input
-        type="date"
-        placeholder="Data de nascimento"
-        value={birthdate}
-        onChange={(e) => setBirthdate(e.target.value)}
-      />
-
-      <button type="submit" style={{ marginTop: '1rem' }}>
-        Cadastrar
-      </button>
-    </form>
+    </div>
   );
 };
 
