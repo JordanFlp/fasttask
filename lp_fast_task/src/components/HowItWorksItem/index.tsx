@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import type { HowItWorksStep } from '../../types';
-import type { ThemeType } from '../../theme'; 
 
 interface HowItWorksItemProps {
   step: HowItWorksStep;
@@ -11,7 +10,7 @@ const ItemWrapper = styled.li`
   display: flex;
   align-items: flex-start;
   margin-bottom: 16px;
-  color: ${({ theme }: { theme: ThemeType }) => theme.colors.textMain};
+  color: var(--ft-color-text-main);
 
   &:last-child {
     margin-bottom: 0;
@@ -19,8 +18,8 @@ const ItemWrapper = styled.li`
 `;
 
 const StepNumberWrapper = styled.div`
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary};
-  color: ${({ theme }: { theme: ThemeType }) => theme.colors.white};
+  background-color: var(--ft-color-primary);
+  color: var(--ft-color-white);
   border-radius: 50%;
   width: 28px;
   height: 28px;

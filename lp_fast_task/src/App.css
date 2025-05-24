@@ -2,14 +2,14 @@
 
 :root {
 
-  --ft-color-primary: #2AB6A5;         /* Cor principal */
-  --ft-color-secondary: #10375C;       /* Cabeçalhos, texto importante, rodapé */
-  --ft-color-bg-light: #F4F7F8;        /* Plano de fundo claro */
-  --ft-color-text-main: #2C2C2C;       /* Texto principal */
-  --ft-color-text-muted: #7A7A7A;      /* Texto suave / auxiliar */
-  --ft-color-accent: #3ED0C0;          /* Ação / Hover / Ênfase */
-  --ft-color-error: #E74C3C;           /* Alerta / Erro */
-  --ft-color-success: #2ECC71;         /* Sucesso */
+  --ft-color-primary: #2AB6A5;     
+  --ft-color-secondary: #10375C;
+  --ft-color-bg-light: #F4F7F8;
+  --ft-color-text-main: #2C2C2C;
+  --ft-color-text-muted: #7A7A7A;
+  --ft-color-accent: #3ED0C0;
+  --ft-color-error: #E74C3C;
+  --ft-color-success: #2ECC71;
 
   --ft-gradient-blue: linear-gradient(to bottom, #4DA8DA, #2E6A9B);
   --ft-font-family: 'Poppins', sans-serif;
