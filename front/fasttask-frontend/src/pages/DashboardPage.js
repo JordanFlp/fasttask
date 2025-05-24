@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TaskList from '../components/TaskList';
-import '../styles/Dashboard.css';
+import '../styles/DashboardPage.css';
 
 const getInitials = (name) => {
   if (!name) return '';

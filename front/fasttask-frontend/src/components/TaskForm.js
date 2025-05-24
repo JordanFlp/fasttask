@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TaskService from '../services/TaskService';
+import '../styles/TaskForm.css';
 
 const TaskForm = ({ task, userId, onSuccess, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -10,7 +11,6 @@ const TaskForm = ({ task, userId, onSuccess, onCancel }) => {
     subitems: [],
   });
 
-  // Estado para controlar a animação de saída
   const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const TaskForm = ({ task, userId, onSuccess, onCancel }) => {
         name: task.name,
         description: task.description,
         status: task.status,
-        priority: task.priority,
+        priority: task.priority, // Mantém a capitalização original
         subitems: task.subitems || [],
       });
     }
@@ -33,31 +33,41 @@ const TaskForm = ({ task, userId, onSuccess, onCancel }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const validSubitems = formData.subitems.filter(subitem => subitem.description.trim() !== '');
-
     const taskPayload = {
-      ...task,
       ...formData,
       user: { id: userId },
-      subitems: validSubitems.map(subitem => ({
-        description: subitem.description,
-        active: true,
-      })),
+      subitems: formData.subitems
+        .filter(subitem => subitem.description.trim() !== '')
+        .map(subitem => ({
+          id: subitem.id || null, // Mantém o ID se existir
+          description: subitem.description,
+          active: subitem.active !== false, // Default true
+        })),
     };
 
     try {
       if (task && task.id) {
-        await TaskService.updateTask(task.id, taskPayload);
+        // Para edição, mantemos a estrutura original
+        const updatedTask = {
+          id: task.id,
+          name: formData.name,
+          description: formData.description,
+          status: formData.status,
+          priority: formData.priority, // Mantém a capitalização
+          user: { id: userId },
+          subitems: taskPayload.subitems
+        };
+        await TaskService.updateTask(task.id, updatedTask);
       } else {
         await TaskService.createTask(taskPayload);
       }
-
       onSuccess();
     } catch (error) {
       console.error('Erro ao salvar tarefa:', error);
     }
   };
 
+  // Restante do código permanece igual ao original
   const handleAddSubitem = () => {
     setFormData(prev => ({
       ...prev,
@@ -76,76 +86,114 @@ const TaskForm = ({ task, userId, onSuccess, onCancel }) => {
     setFormData(prev => ({ ...prev, subitems: updated }));
   };
 
-  // Função para animar o fechamento e depois chamar onCancel
   const handleCancelClick = () => {
-    setIsClosing(true); // inicia animação
-
+    setIsClosing(true);
     setTimeout(() => {
       onCancel();
-      setIsClosing(false); // reseta para caso reabra o form
-    }, 300); // duração da animação em ms (deve bater com o CSS)
+      setIsClosing(false);
+    }, 300);
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      style={{
-        opacity: isClosing ? 0 : 1,
-        transition: 'opacity 300ms ease',
-      }}
-    >
-      <h3>{task ? 'Editar Tarefa' : 'Nova Tarefa'}</h3>
+    <div className={`task-form-overlay ${isClosing ? 'closing' : ''}`}>
+      <div className="task-form-container">
+        <form onSubmit={handleSubmit} className="task-form">
+          <h3>{task ? 'Editar Tarefa' : 'Nova Tarefa'}</h3>
 
-      <input
-        type="text"
-        name="name"
-        placeholder="Nome"
-        value={formData.name}
-        onChange={handleChange}
-        required
-      />
+          <div className="form-group">
+            <label>Nome*</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-      <input
-        type="text"
-        name="description"
-        placeholder="Descrição"
-        value={formData.description}
-        onChange={handleChange}
-      />
+          <div className="form-group">
+            <label>Descrição</label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              rows="3"
+            />
+          </div>
 
-      <select name="status" value={formData.status} onChange={handleChange}>
-        <option value="A fazer">A fazer</option>
-        <option value="Em andamento">Em andamento</option>
-        <option value="Concluída">Concluída</option>
-      </select>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Status</label>
+              <select 
+                name="status" 
+                value={formData.status} 
+                onChange={handleChange}
+                className="status-select"
+              >
+                <option value="A fazer">A fazer</option>
+                <option value="Em andamento">Em andamento</option>
+                <option value="Concluída">Concluída</option>
+              </select>
+            </div>
 
-      <select name="priority" value={formData.priority} onChange={handleChange}>
-        <option value="Baixa">Baixa</option>
-        <option value="Média">Média</option>
-        <option value="Alta">Alta</option>
-      </select>
+            <div className="form-group">
+              <label>Prioridade</label>
+              <select 
+                name="priority" 
+                value={formData.priority} 
+                onChange={handleChange}
+                className={`priority-select ${formData.priority.toLowerCase()}`}
+              >
+                <option value="baixa">Baixa</option>
+                <option value="media">Média</option>
+                <option value="alta">Alta</option>
+              </select>
+            </div>
+          </div>
 
-      <h4>Subitens</h4>
-      {formData.subitems.map((subitem, index) => (
-        <div key={index}>
-          <input
-            type="text"
-            placeholder={`Subitem ${index + 1}`}
-            value={subitem.description}
-            onChange={(e) => handleSubitemChange(index, e.target.value)}
-          />
-          <button type="button" onClick={() => handleRemoveSubitem(index)}>Remover</button>
-        </div>
-      ))}
-      <button type="button" onClick={handleAddSubitem}>+ Adicionar Subitem</button>
+          <div className="subitems-container">
+            <label>Subitens</label>
+            {formData.subitems.map((subitem, index) => (
+              <div key={index} className="subitem">
+                <input
+                  type="text"
+                  placeholder={`Subitem ${index + 1}`}
+                  value={subitem.description}
+                  onChange={(e) => handleSubitemChange(index, e.target.value)}
+                />
+                <button 
+                  type="button" 
+                  onClick={() => handleRemoveSubitem(index)}
+                  className="remove-subitem-btn"
+                >
+                  ×
+                </button>
+              </div>
+            ))}
+            <button 
+              type="button" 
+              onClick={handleAddSubitem}
+              className="add-subitem-btn"
+            >
+              + Adicionar Subitem
+            </button>
+          </div>
 
-      <div style={{ marginTop: '1rem' }}>
-        <button type="submit">{task ? 'Salvar Alterações' : 'Criar Tarefa'}</button>
-        <button type="button" onClick={handleCancelClick} style={{ marginLeft: '1rem' }}>
-          Cancelar
-        </button>
+          <div className="form-actions">
+            <button type="submit" className="submit-btn">
+              {task ? 'Salvar Alterações' : 'Criar Tarefa'}
+            </button>
+            <button 
+              type="button" 
+              onClick={handleCancelClick}
+              className="cancel-btn"
+            >
+              Cancelar
+            </button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   );
 };
 

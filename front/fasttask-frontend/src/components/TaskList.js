@@ -10,7 +10,6 @@ const TaskList = ({ userId }) => {
   const [showForm, setShowForm] = useState(false);
   const [filter, setFilter] = useState('all');
 
-  // Carrega as tarefas do usuário
   const loadTasks = useCallback(async () => {
     if (!userId) return;
     try {
@@ -76,7 +75,6 @@ const TaskList = ({ userId }) => {
 
     try {
       await TaskService.updateTask(task.id, updatedTask);
-
       setTasks((prevTasks) =>
         prevTasks.map((t) =>
           t.id === task.id ? { ...t, status: newStatus } : t
@@ -120,7 +118,6 @@ const TaskList = ({ userId }) => {
     if (userId) loadTasks();
   }, [userId, loadTasks]);
 
-  // Filtrar tarefas pelo status
   const filteredTasks = tasks.filter((task) => {
     const statusLower = task.status.toLowerCase();
     if (filter === 'active') return statusLower !== 'concluída';
@@ -155,50 +152,77 @@ const TaskList = ({ userId }) => {
         <p>Nenhuma tarefa encontrada com esse filtro.</p>
       ) : (
         filteredTasks.map((task) => (
-          <div key={task.id} className="task-card">
-            <h3>{task.name}</h3>
-            <p><strong>Descrição:</strong> {task.description || '—'}</p>
-            <p>
-              <strong>Status:</strong>{' '}
-              <button className="status-button" onClick={() => toggleTaskStatus(task)}>
-                {task.status === 'Concluída'
-                  ? '✅ Concluída'
-                  : task.status === 'Em andamento'
-                  ? '🚧 Em andamento'
-                  : '🕒 A fazer'}
+          <div 
+            key={task.id} 
+            className="task-card"
+            data-priority={task.priority.toLowerCase()}
+          >
+            <div className="task-content">
+              <h3>{task.name}</h3>
+              <p><strong>Descrição:</strong> {task.description || '—'}</p>
+              <p>
+                <strong>Status:</strong>{' '}
+                <button 
+                  className="status-button" 
+                  onClick={() => toggleTaskStatus(task)}
+                  data-status={task.status}
+                >
+                  {task.status === 'Concluída'
+                    ? '✅ Concluída'
+                    : task.status === 'Em andamento'
+                    ? '🚧 Em andamento'
+                    : '🕒 A fazer'}
+                </button>
+              </p>
+              <p><strong>Prioridade:</strong> {task.priority}</p>
+
+              {task.subitems?.length > 0 && (
+                <div className="task-subitems">
+                  <strong>Subitens:</strong>
+                  <ul>
+                    {task.subitems.map((subitem) => (
+                      <li key={subitem.id}>
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={!subitem.active}
+                            onChange={() => toggleSubitem(task.id, subitem)}
+                          />{' '}
+                          <span
+                            style={{
+                              textDecoration: !subitem.active ? 'line-through' : 'none',
+                            }}
+                          >
+                            {subitem.description}
+                          </span>
+                        </label>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            <div className="task-actions">
+              <button 
+                className="edit-btn" 
+                onClick={() => handleEdit(task)} 
+                title="Editar"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
               </button>
-            </p>
-            <p><strong>Prioridade:</strong> {task.priority}</p>
-
-            {task.subitems?.length > 0 && (
-              <div className="task-subitems">
-                <strong>Subitens:</strong>
-                <ul>
-                  {task.subitems.map((subitem) => (
-                    <li key={subitem.id}>
-                      <label>
-                        <input
-                          type="checkbox"
-                          checked={!subitem.active}
-                          onChange={() => toggleSubitem(task.id, subitem)}
-                        />{' '}
-                        <span
-                          style={{
-                            textDecoration: !subitem.active ? 'line-through' : 'none',
-                          }}
-                        >
-                          {subitem.description}
-                        </span>
-                      </label>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            <div className="task-buttons">
-              <button onClick={() => handleEdit(task)}>Editar</button>
-              <button onClick={() => handleDelete(task.id)}>Excluir</button>
+              
+              <button 
+                className="delete-btn" 
+                onClick={() => handleDelete(task.id)} 
+                title="Excluir"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
             </div>
           </div>
         ))
