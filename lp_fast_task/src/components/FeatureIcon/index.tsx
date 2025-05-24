@@ -20,8 +20,8 @@ const ItemWrapper = styled.li`
 
 const IconWrapper = styled.div`
   margin-right: 12px;
-  color: ${({ theme }: { theme: ThemeType }) => theme.colors.secondary}; // Cor dos ícones de funcionalidades
-  font-size: 1.5rem; // Ajuste o tamanho conforme necessário
+  color: ${({ theme }: { theme: ThemeType }) => theme.colors.secondary};
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
 `;

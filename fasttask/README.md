@@ -47,9 +47,13 @@ br.com.fasttask.fasttask         → Pacote principal da aplicação
 git clone git@github.com:iolymmoliveira/pift.git
 ```
 
-### 2. Crie o banco de dados MySQL com o seguinte script:
+### 2. Crie o banco de dados MySQL com o seguinte script 🗄️:
 
 ```bash
+-- -----------------------------------------------------
+-- Schema fastTask
+-- -----------------------------------------------------
+
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
@@ -57,53 +61,69 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 CREATE SCHEMA IF NOT EXISTS `fastTask` DEFAULT CHARACTER SET utf8 ;
 USE `fastTask` ;
 
-CREATE TABLE IF NOT EXISTS `User` (
+-- -----------------------------------------------------
+-- Table `fastTask`.`User`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fastTask`.`User` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(100) NOT NULL,
   `password` VARCHAR(100) NOT NULL,
-  `name` VARCHAR(100),
-  `address` VARCHAR(100),
-  `phone` VARCHAR(20),
-  `birthdate` DATE,
-  `photo` BLOB,
+  `name` VARCHAR(100) NULL,
+  `address` VARCHAR(100) NULL,
+  `phone` VARCHAR(20) NULL,
+  `birthdate` DATE NULL,
+  `photo` MEDIUMBLOB NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `email_UNIQUE` (`email`)
-) ENGINE = InnoDB;
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE)
+ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `Task` (
+
+-- -----------------------------------------------------
+-- Table `fastTask`.`Task`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fastTask`.`Task` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
-  `description` VARCHAR(150),
-  `status` VARCHAR(45),
-  `priority` VARCHAR(45),
-  `created_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `description` VARCHAR(150) NULL,
+  `status` VARCHAR(45) NULL,
+  `priority` VARCHAR(45) NULL,
+  `created_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Tasks_Users_idx` (`user_id`),
+  INDEX `fk_Tasks_Users_idx` (`user_id` ASC) VISIBLE,
   CONSTRAINT `fk_Tasks_Users`
     FOREIGN KEY (`user_id`)
-    REFERENCES `User` (`id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE = InnoDB;
+    REFERENCES `fastTask`.`User` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
-CREATE TABLE IF NOT EXISTS `Subitem` (
+
+-- -----------------------------------------------------
+-- Table `fastTask`.`Subitem`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fastTask`.`Subitem` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `description` VARCHAR(200) NOT NULL,
   `active` TINYINT(1) NOT NULL,
   `task_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_Subitems_Tasks1_idx` (`task_id`),
+  INDEX `fk_Subitems_Tasks1_idx` (`task_id` ASC) VISIBLE,
   CONSTRAINT `fk_Subitems_Tasks1`
     FOREIGN KEY (`task_id`)
-    REFERENCES `Task` (`id`)
-    ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE = InnoDB;
+    REFERENCES `fastTask`.`Task` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
+
 ```
+
 
 ###### 🖼️ Diagrama do Banco de Dados
 
@@ -125,9 +145,6 @@ spring.datasource.password = sua-senha
 ```bash
 mvn spring-boot:run
 ```
-
-### 5. Acesse a aplicação
-http://localhost:8080
 
 ---
 

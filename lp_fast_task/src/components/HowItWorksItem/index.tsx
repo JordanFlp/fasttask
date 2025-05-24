@@ -9,7 +9,7 @@ interface HowItWorksItemProps {
 
 const ItemWrapper = styled.li`
   display: flex;
-  align-items: flex-start; // Alinha o número com o topo do texto, útil para textos longos
+  align-items: flex-start;
   margin-bottom: 16px;
   color: ${({ theme }: { theme: ThemeType }) => theme.colors.textMain};
 
@@ -30,7 +30,7 @@ const StepNumberWrapper = styled.div`
   font-weight: bold;
   font-size: 0.9rem;
   margin-right: 12px;
-  flex-shrink: 0; // Previne que o círculo encolha com texto adjacente
+  flex-shrink: 0;
 `;
 
 const Text = styled.span`

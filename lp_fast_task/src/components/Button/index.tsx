@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 interface ButtonProps {
   children: React.ReactNode;
-  to?: string; // Propriedade para links internos
-  href?: string; // Propriedade para links externos (opcional, para maior flexibilidade)
+  to?: string;
+  href?: string;
   onClick?: () => void;
   className?: string;
 }
