@@ -1,8 +1,7 @@
 import React from 'react';
 import './style.css';
-import mockup from '../../assets/images/mockup.png';
+import mockup from '../../assets/images/dashboard.png';
 import Button from '../../components/Button';
-import HeroCard from '../../components/HeroCard';
 
 const HeroSection: React.FC = () => {
   return (
@@ -21,15 +20,10 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
 
-      {/* <div className="ft-hero-right">
-        <img src={mockup} alt="Mockup App 1" className="ft-hero-img img1" />
-        <div className="ft-hero-gradient" />
-      </div> */}
-
       <div className="ft-hero-right">
-        <HeroCard imageSrc={mockup} altText="Mockup App 1" className="img1">
-        </HeroCard>
-        <div className="ft-hero-gradient" />
+        <div className="ft-hero-card">
+          <img src={mockup} alt="Dashboard Image" className="ft-hero-image" />
+        </div>
       </div>
     </section>
   );

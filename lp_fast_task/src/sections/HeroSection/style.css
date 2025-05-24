@@ -3,27 +3,27 @@
   color: var(--ft-color-bg-light);
   padding: 3rem 1.5rem;
   display: flex;
-  flex-direction: column; /* Layout em coluna padrão para mobile */
+  flex-direction: column;
   gap: 2rem;
   position: relative;
   font-family: var(--ft-font-family);
-  align-items: center; /* Centraliza os itens na direção transversal (horizontal no layout coluna) */
+  align-items: center;
 }
 
 .ft-hero-left {
   z-index: 2;
   text-align: center;
-  display: flex; /* Adicionado para centralizar o conteúdo internamente */
+  display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem; /* Mantém o espaçamento entre os elementos */
+  gap: 2rem;
 }
 
 .ft-hero-title {
   font-size: 1.8rem;
   font-weight: 600;
   line-height: 1.4;
-  margin-bottom: 0; /* Removido para usar o gap do flex container */
+  margin-bottom: 0;
 }
 
 .ft-hero-title strong {
@@ -33,33 +33,35 @@
 .ft-hero-subtitle {
   font-size: 1rem;
   color: var(--ft-color-text-soft);
-  margin-bottom: 0; /* Removido para usar o gap do flex container */
+  margin-bottom: 0;
 }
 
 .ft-hero-buttons {
   display: flex;
   gap: 1rem;
   justify-content: center;
-  width: 100%; /* Garante que os botões ocupem a largura total disponível */
+  width: 100%;
 }
 
-/* Estilos do HeroCard */
 .ft-hero-right {
-  width: 100%; /* Garante que o HeroCard ocupe a largura total em telas pequenas */
+  width: 100%;
   display: flex;
-  justify-content: center; /* Centraliza o HeroCard horizontalmente */
+  justify-content: center;
   align-items: center;
 }
 
-.ft-hero-gradient {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(to left, rgba(42, 182, 165, 0.3), transparent);
-  z-index: 0;
-  pointer-events: none;
+.ft-hero-card {
+  background: linear-gradient(to left, rgba(132, 252, 238, 0.582), transparent);
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 80%;
+}
+
+.ft-hero-image {
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
 }
 
 /* Desktop layout */
@@ -74,7 +76,7 @@
   .ft-hero-left {
     flex: 1;
     text-align: left;
-    align-items: flex-start; /* Alinha o conteúdo à esquerda no layout de linha */
+    align-items: flex-start;
   }
 
   .ft-hero-title {
@@ -87,12 +89,16 @@
 
   .ft-hero-buttons {
     justify-content: flex-start;
-    width: auto; /* Retorna ao comportamento automático em telas maiores */
+    width: auto;
   }
 
   .ft-hero-right {
     flex: 1;
     justify-content: flex-end;
-    align-items: center; /* Centraliza verticalmente a imagem na tela desktop */
+    align-items: center;
+  }
+
+  .ft-hero-card {
+    width: 100%;
   }
 }
