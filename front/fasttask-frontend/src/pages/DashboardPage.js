@@ -33,24 +33,26 @@ const DashboardPage = () => {
   }
 
   return (
-    <div className="dashboard-container">
-      <header className="dashboard-header">
-        <div className="dashboard-avatar" onClick={() => navigate('/profile')}>
-          {user.photoBase64 ? (
-            <img src={user.photoBase64} alt="Avatar" />
-          ) : (
-            getInitials(user.name)
-          )}
-        </div>
-        <h2 className="dashboard-welcome">Bem-vindo(a), {user.name.split(' ')[0]}!</h2>
-        <button className="dashboard-logout" onClick={handleLogout}>
-          Sair
-        </button>
-      </header>
+    <div className="auth-layout">
+      <div className="dashboard-container">
+        <header className="dashboard-header">
+          <div className="dashboard-avatar" onClick={() => navigate('/profile')}>
+            {user.photoBase64 ? (
+              <img src={user.photoBase64} alt="Avatar" />
+            ) : (
+              getInitials(user.name)
+            )}
+          </div>
+          <h2 className="dashboard-welcome">Bem-vindo(a), {user.name.split(' ')[0]}!</h2>
+          <button className="dashboard-logout" onClick={handleLogout}>
+            Sair
+          </button>
+        </header>
 
-      <main className="dashboard-content">
-        <TaskList userId={user.id} />
-      </main>
+        <main className="dashboard-content">
+          <TaskList userId={user.id} />
+        </main>
+      </div>
     </div>
   );
 };

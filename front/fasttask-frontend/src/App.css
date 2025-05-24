@@ -30,16 +30,18 @@
 
 body {
   font-family: var(--ft-font-family);
-  background-color: var(--ft-color-bg-light);
+  background-color: var(--ft-btn-shadow-secondary);
   color: var(--ft-color-text-main);
 }
 
 /* Estrutura principal */
-.app-root {
+.app.root {
+  background-color: var(--ft-btn-shadow-primary); /* ou a cor que quiser */
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  margin: 0;
+  padding: 0;
 }
+
 
 /* HEADER - Barra superior */
 .app-header {

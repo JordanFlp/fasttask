@@ -1,11 +1,11 @@
 .auth-layout {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* Mudado de 'center' para 'flex-start' */
+  align-items: flex-start;
   min-height: 100vh;
   background: linear-gradient(135deg, #133859 0%, #1a4b75 100%);
   padding: 2rem;
-  padding-top: 10vh; /* Adicionado padding no topo */
+  padding-top: 10vh;
   position: relative;
   overflow: hidden;
   box-sizing: border-box;

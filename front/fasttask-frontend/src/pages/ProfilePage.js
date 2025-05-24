@@ -147,8 +147,8 @@ const ProfilePage = () => {
   return (
     <div className="profile-page-container">
       <button onClick={() => navigate('/dashboard')} className="back-button">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-          <path fillRule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" clipRule="evenodd" />
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" width="20" height="20" style={{ marginRight: '6px' }}>
+          <path fillRule="evenodd" d="M15.28 3.72a.75.75 0 0 1 0 1.06L9.06 11l6.22 6.22a.75.75 0 0 1-1.06 1.06l-6.75-6.75a.75.75 0 0 1 0-1.06l6.75-6.75a.75.75 0 0 1 1.06 0Z" clipRule="evenodd" />
         </svg>
         Voltar
       </button>
