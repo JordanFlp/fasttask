@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import type { Feature } from '../../types';
-import type { ThemeType } from '../../theme';
 
 interface FeatureItemProps {
   feature: Feature;
@@ -11,7 +10,7 @@ const ItemWrapper = styled.li`
   display: flex;
   align-items: center;
   margin-bottom: 16px;
-  color: ${({ theme }: { theme: ThemeType }) => theme.colors.textMain};
+  color: var(--ft-color-text-main);
 
   &:last-child {
     margin-bottom: 0;
@@ -20,7 +19,7 @@ const ItemWrapper = styled.li`
 
 const IconWrapper = styled.div`
   margin-right: 12px;
-  color: ${({ theme }: { theme: ThemeType }) => theme.colors.secondary};
+  color: var(--ft-color-secondary);
   font-size: 1.5rem;
   display: flex;
   align-items: center;
@@ -42,6 +41,6 @@ const FeatureItem: React.FC<FeatureItemProps> = ({ feature }) => {
       <Text>{feature.text}</Text>
     </ItemWrapper>
   );
-}
+};
 
 export default FeatureItem;

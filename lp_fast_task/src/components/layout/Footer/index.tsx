@@ -1,61 +1,95 @@
 import React from 'react';
-import styled, { ThemeProvider } from 'styled-components';
-import { theme } from '../../../theme';
-import type { ThemeType } from '../../../theme';
+import styled from 'styled-components';
 
-type FooterProps = Record<string, never>;
+const FooterContainer = styled.footer`
+  background-color: var(--ft-color-secondary);
+  color: var(--ft-color-bg-light);
+  padding: 40px 20px;
 
-const FooterWrapper = styled.footer<{ theme: ThemeType }>`
-  background-color: ${({ theme }) => theme.colors.secondary};
-  color: ${({ theme }) => theme.colors.white};
-  padding: 20px 0;
-  text-align: center;
-  width: 100%;
+  @media (min-width: 768px) {
+    padding: 60px 40px;
+  }
 `;
 
-const FooterContainer = styled.div<{ theme: ThemeType }>`
+const ContentWrapper = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 
-  @media (min-width: ${({ theme }) => theme.breakpoints.tablet}) {
-    padding: 0 40px;
+  @media (min-width: 1024px) {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 60px;
   }
 `;
 
-const FooterText = styled.p`
+const Column = styled.div`
+  flex: 1;
+  min-width: 0;
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 1.75rem;
+  color: var(--ft-color-bg-light);
+  margin-bottom: 24px;
+  font-weight: 600;
+
+  @media (min-width: 768px) {
+    font-size: 2rem;
+    margin-bottom: 32px;
+  }
+`;
+
+const List = styled.ul`
+  list-style: none;
+  padding: 0;
   margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.5;
+`;
 
-  a {
-    color: ${({ theme }) => theme.colors.primary};
-    text-decoration: none;
-    font-weight: bold;
+const ListItem = styled.li`
+  margin-bottom: 12px;
+  color: var(--ft-color-bg-light);
+  cursor: pointer;
 
-    &:hover {
-      text-decoration: underline;
-      color: ${({ theme }) => theme.colors.actionEmphasis};
-    }
+  &:hover {
+    color: var(--ft-color-primary);
   }
 `;
 
-const currentYear = new Date().getFullYear();
-
-const Footer: React.FC<FooterProps> = () => {
+const Footer: React.FC = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <FooterWrapper>
-        <FooterContainer>
-          <FooterText>
-            © {currentYear} Fast Task. Todos os direitos reservados.
-          </FooterText>
-          <FooterText>
-            <a href="/privacy-policy">Política de Privacidade</a> | <a href="/terms-of-service">Termos de Serviço</a>
-          </FooterText>
-        </FooterContainer>
-      </FooterWrapper>
-    </ThemeProvider>
+    <FooterContainer>
+      <ContentWrapper>
+        <Column>
+          <SectionTitle>Sobre Nós</SectionTitle>
+          <List>
+            <ListItem>Quem somos</ListItem>
+            <ListItem>Missão e Visão</ListItem>
+            <ListItem>Equipe</ListItem>
+          </List>
+        </Column>
+
+        <Column>
+          <SectionTitle>Serviços</SectionTitle>
+          <List>
+            <ListItem>Consultoria</ListItem>
+            <ListItem>Suporte</ListItem>
+            <ListItem>Desenvolvimento</ListItem>
+          </List>
+        </Column>
+
+        <Column>
+          <SectionTitle>Contato</SectionTitle>
+          <List>
+            <ListItem>Email: contato@seudominio.com</ListItem>
+            <ListItem>Telefone: (11) 1234-5678</ListItem>
+            <ListItem>Endereço: Rua Exemplo, 123</ListItem>
+          </List>
+        </Column>
+      </ContentWrapper>
+    </FooterContainer>
   );
 };
 

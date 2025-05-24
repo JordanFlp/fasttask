@@ -1,7 +1,5 @@
 import React from 'react';
-import styled, { ThemeProvider } from 'styled-components';
-import { theme } from '../../theme';
-import type { ThemeType } from '../../theme';
+import styled from 'styled-components';
 import type { Feature, HowItWorksStep } from '../../types';
 import FeatureItem from '../../components/FeatureIcon';
 import HowItWorksItem from '../../components/HowItWorksItem';
@@ -18,10 +16,10 @@ import {
 import { FaProjectDiagram } from 'react-icons/fa';
 
 const SectionContainer = styled.section`
-  background-color: ${({ theme }: { theme: ThemeType }) => theme.colors.backgroundLight};
+  background-color: var(--ft-color-bg-light);
   padding: 40px 20px;
 
-  @media (min-width: ${({ theme }: { theme: ThemeType }) => theme.breakpoints.tablet}) {
+  @media (min-width: 768px) {
     padding: 60px 40px;
   }
 `;
@@ -33,7 +31,7 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   gap: 40px;
 
-  @media (min-width: ${({ theme }: { theme: ThemeType }) => theme.breakpoints.desktop}) {
+  @media (min-width: 1024px) {
     flex-direction: row;
     justify-content: space-between;
     gap: 60px;
@@ -47,20 +45,19 @@ const Column = styled.div`
 
 const SectionTitle = styled.h2`
   font-size: 1.75rem;
-  color: ${({ theme }: { theme: ThemeType }) => theme.colors.secondary};
+  color: var(--ft-color-secondary);
   margin-bottom: 24px;
   display: flex;
   align-items: center;
   font-weight: 600;
 
-
   svg.title-icon {
     margin-right: 10px;
     font-size: 1.6rem;
-    color: ${({ theme }: { theme: ThemeType }) => theme.colors.primary};
+    color: var(--ft-color-primary);
   }
 
-  @media (min-width: ${({ theme }: { theme: ThemeType }) => theme.breakpoints.tablet}) {
+  @media (min-width: 768px) {
     font-size: 2rem;
     margin-bottom: 32px;
   }
@@ -89,7 +86,7 @@ const howItWorksData: HowItWorksStep[] = [
 
 const FeaturesSection: React.FC = () => {
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <SectionContainer>
         <ContentWrapper>
           <Column>
@@ -113,7 +110,7 @@ const FeaturesSection: React.FC = () => {
           </Column>
         </ContentWrapper>
       </SectionContainer>
-    </ThemeProvider>
+    </>
   );
 };
 
