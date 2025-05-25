@@ -3,6 +3,22 @@
 Bem-vindo(a) ao projeto Fast Task, sua solução completa para gerenciamento de tarefas! 🎉 Nosso ecossistema de produtividade é construído com tecnologias de ponta, oferecendo uma experiência fluida tanto para o usuário quanto para o desenvolvedor. Prepare-se para uma imersão no nosso universo de organização e eficiência! 🤓
 
 ---
+## 🤝 **Colaboradores**
+Este projeto é fruto do trabalho e dedicação dos seguintes colaboradores, que atuaram de forma conjunta em todas as etapas, mas com focos principais em determinadas áreas:
+
+* **[Ioly Oliveira](https://github.com/iolymmoliveira)** — principal responsável pelo desenvolvimento do backend.
+* **[Jordan Felipe](https://github.com/jordanFlp)** — principal responsável pela implementação do frontend.
+* **[Renato Tavares](https://github.com/renatoeTavares)** — principal responsável pela criação da landing page e elaboração do README.
+
+Todos contribuíram ativamente em diversas partes do projeto, promovendo um trabalho colaborativo e integrado. 🚀
+
+---
+## 🔗 **Links do Projeto**
+**🌐 Landing Page:** https://jordanflp.github.io/fasttask_lp/
+
+**🎥 Apresentação (YouTube):** https://youtu.be/qAYvvR5ZR8Y?si=Oixkb7YYNXAEeMtd
+
+---
 
 ## 🌟 **Visão Geral**
 
@@ -470,16 +486,6 @@ Cada cor tem um propósito! Nossa paleta foi cuidadosamente selecionada para uma
 | **Ação/Ênfase** | Azul Claro / Hover Teal | `#3ED0C0`  | Onde a magia acontece ao interagir: botões e links vibrantes! 💫 |
 | **Alerta/Erro** | Vermelho Suave       | `#E74C3C`  | Mensagens de erro e campos inválidos - atenção redobrada! ⚠️ |
 | **Sucesso** | Verde Claro          | `#2ECC71`  | Confirmações e status concluído - uhuul, deu tudo certo! ✅ |
-
----
-
-## 🤝 **Colaboradores**
-
-Este projeto é fruto do trabalho e dedicação dos seguintes colaboradores:
-
-* [Ioly Oliveira](https://github.com/iolymmoliveira)
-* [Jordan Felipe](https://github.com/jordanFlp)
-* [Renato Tavares](https://github.com/renatoeTavares)
 
 ---
 
